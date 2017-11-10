@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.career.mapper.ServedMapper">
+	<resultMap type="servedVO" id="servedResultMap">
+		<id property="seq" column="SERVED_SEQ"/>
+		<result property="task" column="SERVED_TASK"/>
+		<result property="dept" column="SERVED_DEPT"/>
+		<result property="user_agree_bool" column="SERVED_USER_AGREE_BOOL"/>
+		<result property="com_agree_bool" column="SERVED_COM_AGREE_BOOL"/>
+		<result property="task_start_date" column="SERVED_TASK_START_DATE"/>
+		<result property="task_end_date" column="SERVED_TASK_END_DATE"/>
+		<result property="state" column="SERVED_STATE"/>
+		<result property="reg_date" column="SERVED_REG_DATE"/>
+		<result property="mod_date" column="SERVED_MOD_DATE"/>
+		<result property="user_seq" column="USER_SEQ"/>
+		<result property="com_seq" column="COM_SEQ"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="userTel" column="user_tel"/>
+		<result property="spot" column="SERVED_SPOT"/>
+		
+		<result property="comName" column="com_Name"/>
+		<result property="comTel" column="com_TEL"/>
+		<result property="comAddr" column="com_addr"/>
+		<result property="comNum" column="com_Num"/>
+	</resultMap>
+	
+	<select id="servedUserList" resultMap="servedResultMap">
+		select * from user_served_view where com_seq=#{cseq}
+	</select>
+	
+	<insert id="servedUserInsert" parameterType="servedVO">
+		insert into cm_served(
+		served_seq,
+		served_task,
+		served_dept,
+		served_spot,
+		served_user_agree_bool,
+		served_com_agree_bool,
+		served_task_start_date,
+		served_task_end_date,
+		served_state,
+		user_seq,
+		com_seq
+		)values(
+		served_seq.nextVal,
+		#{task, jdbcType=VARCHAR},
+		#{dept, jdbcType=VARCHAR},
+		#{spot, jdbcType=VARCHAR},
+		'n',
+		'y',
+		#{task_start_date, jdbcType=VARCHAR},
+		#{task_end_date, jdbcType=VARCHAR},
+		'사용자승인대기',
+		#{user_seq, jdbcType=INTEGER},
+		#{com_seq, jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<!-- 재직 회사 리스트 조회 -->
+	<select id="servedComList" resultMap="servedResultMap">
+		select * from com_served_view where user_seq=#{useq} and served_user_agree_bool='y' and served_com_agree_bool='y'
+	</select>
+	
+	<!-- 재직 회사 조회 맨위에 숫자 빼야됨!! -->
+	<select id="servedCom" resultMap="servedResultMap">
+		select * from com_user_served_view where com_seq=#{cseq, jdbcType=INTEGER} and served_seq=1
+	</select>
+	
+	<insert id="servedComInsert" parameterType="servedVO">
+		insert into cm_served(
+		served_seq,
+		served_task,
+		served_dept,
+		served_spot,
+		served_user_agree_bool,
+		served_com_agree_bool,
+		served_task_start_date,
+		served_task_end_date,
+		served_state,
+		user_seq,
+		com_seq
+		)values(
+		served_seq.nextVal,
+		#{task, jdbcType=VARCHAR},
+		#{dept, jdbcType=VARCHAR},
+		#{spot, jdbcType=VARCHAR},
+		'y',
+		'n',
+		#{task_start_date, jdbcType=VARCHAR},
+		#{task_end_date, jdbcType=VARCHAR},
+		'회사승인대기',
+		#{user_seq, jdbcType=INTEGER},
+		#{com_seq, jdbcType=INTEGER}
+		)
+	</insert>
+	
+	<select id="servedUserReqList" resultMap="servedResultMap">
+		select * from user_served_view where served_com_agree_bool='n' and com_seq=#{cseq} 
+	</select>
+	
+	
+	<select id="servedUserReq" resultMap="servedResultMap">
+	 	select * from user_served_view where served_seq=#{seq}
+	</select>
+	
+	<select id="servedComReqList" resultMap="servedResultMap">
+		select * from com_served_view where served_user_agree_bool='n' and user_seq=#{useq}
+	</select>
+	<select id="servedUserComReqList" resultMap="servedResultMap">
+		select * from com_served_view where served_com_agree_bool='n' and user_seq=#{useq}
+	</select>
+		
+	<select id="servedComReqDetail" resultMap="servedResultMap">
+		select * from com_served_view where served_seq=#{seq}
+	</select>
+	
+	<select id="servedCertiUser" resultType="String">
+		select user_name from cm_user where user_seq=#{seq}
+	</select>
+	
+</mapper>
+
+
+  

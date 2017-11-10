@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.career.mapper.CarrMapper">
+	<resultMap type="carrVO" id="carrResultMap">
+		<id property="carr_seq" column="CARR_SEQ"/>
+		<result property="busi_seq" column="BUSI_SEQ2"/>
+		<result property="user_seq" column="USER_SEQ"/>
+		<result property="task" column="CARR_TASK"/>
+		<result property="dept" column="CARR_DEPT"/>
+		<result property="state" column="CARR_STATE"/>
+		<result property="spot" column="CARR_SPOT"/>
+		<result property="hideBool" column="CARR_HIDE_BOOL"/>
+		<result property="userAgreeBool" column="CARR_USER_AGREE_BOOL"/>
+		<result property="comAgreeBool" column="CARR_COM_AGREE_BOOL"/>
+		<result property="taskStartDate" column="CARR_TASK_START_DATE"/>
+		<result property="taskEndDate" column="CARR_TASK_END_DATE"/>
+		<result property="proofDate" column="CARR_PROOF_DATE"/>
+		<result property="modDate" column="CARR_MOD_DATE"/>
+		
+		<result property="month" column="CARR_MONTH"/>
+		<result property="userUnitPrice" column="CARR_USER_UNIT_PRICE"/>
+		
+		<result property="userName" column="USER_NAME"/>
+		
+		<result property="comName" column="COM_NAME"/>
+		<result property="comNum" column="COM_NUM"/>
+		<result property="comAddr" column="COM_ADDR"/>
+		<result property="comTel" column="COM_TEL"/>
+		
+		<result property="busiName" column="BUSI_NAME"/>
+		<result property="chkUser" column="BUSI_CHK_USER"/>
+		<result property="chkDept" column="BUSI_CHK_DEPT"/>
+		<result property="chkTel" column="BUSI_CHK_TEL"/>
+		<result property="busiStartDate" column="BUSI_START_DATE"/>
+		<result property="busiEndDate" column="BUSI_END_DATE"/>
+		
+		<result property="carrRegDate" column="carr_reg_date"/>
+		<result property="totalUser" column="USERCOUNT"/>
+	</resultMap>
+	
+	<insert id="insertUserCarr" parameterType="carrVO">
+	insert into CM_CARR(
+		busi_seq2,
+		user_seq,
+		carr_seq,
+		carr_task,
+		carr_dept,
+		carr_state,
+		carr_spot,
+		carr_user_agree_bool,
+		carr_com_agree_bool,
+		carr_task_start_date,
+		carr_task_end_date
+		)values(
+		#{busi_seq, jdbcType=INTEGER},
+		#{user_seq, jdbcType=INTEGER},
+		CARR_SEQ.NEXTVAL,
+		#{task, jdbcType=VARCHAR},
+		#{dept, jdbcType=VARCHAR},
+		'사용자승인대기',
+		#{spot, jdbcType=VARCHAR},
+		'n',
+		'y',
+		#{taskStartDate, jdbcType=VARCHAR},
+		#{taskEndDate, jdbcType=VARCHAR}
+	)
+	</insert>
+	
+	<select id="selectUserCarr" resultMap="carrResultMap">
+		select * from com_busi_carr_view where user_seq=#{useq} and carr_user_agree_bool='y' and carr_com_agree_bool='y'
+	</select>
+	
+	<select id="selectCarr" resultMap="carrResultMap">
+		select * from com_busi_carr_view where carr_seq=#{carrSeq}
+	</select>
+	
+	<select id="selectUserReqList" resultMap="carrResultMap">
+		select a.*, b.busi_name from user_carr_view a join cm_busi b on a.busi_seq2=b.busi_seq where carr_com_agree_bool='n' and b.com_seq=#{cseq}
+	</select>
+	
+	<select id="selectUserReqDetail" resultMap="carrResultMap">
+		select * from user_carr_view where carr_seq=#{carr_seq}
+	</select>
+	
+	<select id="selectNotAgreeUserList" resultMap="carrResultMap">
+		select * from com_busi_carr_view where carr_user_agree_bool='n' and user_seq=#{useq}
+	</select>
+	
+	<select id="selectNotAgreeComList" resultMap="carrResultMap">
+		select * from com_busi_carr_view where carr_com_agree_bool='n' and user_seq=#{useq}
+	</select>
+	
+	<insert id="insertCarr" parameterType="carrVO">
+		insert into CM_CARR(
+			busi_seq2,
+			user_seq,
+			carr_seq,
+			carr_task,
+			carr_dept,
+			carr_state,
+			carr_spot,
+			carr_user_agree_bool,
+			carr_com_agree_bool,
+			carr_task_start_date,
+			carr_task_end_date
+			)values(
+			#{busi_seq, jdbcType=INTEGER},
+			#{user_seq, jdbcType=INTEGER},
+			CARR_SEQ.NEXTVAL,
+			#{task, jdbcType=VARCHAR},
+			#{dept, jdbcType=VARCHAR},
+			'회사승인대기',
+			#{spot, jdbcType=VARCHAR},
+			'y',
+			'n',
+			#{taskStartDate, jdbcType=VARCHAR},
+			#{taskEndDate, jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="selectCarrList" resultMap="carrResultMap">
+		select 
+		count(*) USERCOUNT
+		, carr_reg_date
+		, busi_name
+		, carr_reg_user
+		, carr_reg_tel 
+		from 
+		(select b.busi_name, carr.carr_reg_user, carr.carr_reg_tel, carr.busi_seq2, to_char(carr_reg_date, 'YYYY-MM-DD HH24:MI') carr_reg_date
+		from cm_carr carr join cm_busi b on carr.busi_seq2=b.busi_seq where b.com_seq=#{cseq}) group by carr_reg_date, busi_name, carr_reg_user, carr_reg_tel, busi_name
+		order by carr_reg_date desc
+	</select>
+	
+	<select id="selectCarrDetail" resultMap="carrResultMap">
+		select * from COM_BUSI_CARR_VIEW 
+ 		where carr_reg_date between to_date(#{carrRegDate},'YYYY-MM-DD HH24:MI') and to_date(#{carrRegDate}||':59','YYYY-MM-DD HH24:MI:SS') and rownum=1
+	</select>
+	
+	<select id="selectCarrUserList" resultMap="carrResultMap">
+		select * from USER_CARR_VIEW where carr_reg_date between to_date(#{carrRegDate},'YYYY-MM-DD HH24:MI') and to_date(#{carrRegDate}||':59','YYYY-MM-DD HH24:MI:SS')
+	</select>
+</mapper>

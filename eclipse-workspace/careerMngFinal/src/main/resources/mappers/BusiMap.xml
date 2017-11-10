@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.career.mapper.BusiMapper">
+	<resultMap type="busiVO" id="busiResultMap">
+		<id property="busi_seq" column="BUSI_SEQ"/>
+		<result property="com_seq" column="COM_SEQ"/>
+		<result property="busiName" column="BUSI_NAME"/>
+		<result property="chkUser" column="BUSI_CHK_USER"/>
+		<result property="chkDept" column="BUSI_CHK_DEPT"/>
+		<result property="chkTel" column="BUSI_CHK_TEL"/>
+		<result property="regDate" column="BUSI_REG_DATE"/>
+		<result property="modDate" column="BUSI_MOD_DATE"/>
+		<result property="startDate" column="BUSI_START_DATE"/>
+		<result property="endDate" column="BUSI_END_DATE"/>
+		<result property="agreDate" column="BUSI_AGRE_DATE"/>
+		<result property="openBool" column="BUSI_OPEN_BOOL"/>
+		
+		<result property="expense" column="BUSI_EXPENSE"/>
+		<result property="ordersAmount" column="BUSI_ORDERS_AMOUNT"/>
+		<result property="orderAmount" column="BUSI_ORDER_AMOUNT"/>
+		<result property="totalUser" column="totalUser"/>
+		
+		<result property="comName" column="COM_NAME"/>
+		<result property="comNum" column="COM_NUM"/>
+		<result property="comAddr" column="COM_ADDR"/>
+		<result property="comTel" column="COM_TEL"/>
+		
+	</resultMap>
+	
+	<select id="selectBusiList" resultType="busiVO" parameterType="busiVO">
+		SELECT COM_SEQ
+			 , BUSI_SEQ
+			 , BUSI_NAME
+			 , BUSI_CHK_USER
+			 , BUSI_CHK_DEPT
+			 , BUSI_CHK_TEL
+			 , to_char(BUSI_REG_DATE,'yyyy-mm-dd') AS BUSI_REG_DATE
+			 , to_char(BUSI_MOD_DATE,'yyyy-mm-dd') AS BUSI_MOD_DATE
+			 , to_char(BUSI_START_DATE,'yyyy-mm-dd') AS BUSI_START_DATE
+			 , to_char(BUSI_END_DATE,'yyyy-mm-dd') AS BUSI_END_DATE
+			 , BUSI_AGRE_DATE
+			 , BUSI_OPEN_BOOL
+			 , BUSI_EXPENSE
+			 , BUSI_ORDERS_AMOUNT
+			 , BUSI_ORDER_AMOUNT
+			 , BUSI_TAX 
+		  FROM CM_BUSI
+		 WHERE COM_SEQ = #{com_seq}
+	</select>
+	
+	<select id="selectBusiDetail" parameterType="busiVO" resultType="busiVO">
+		SELECT COM_SEQ
+			 , BUSI_SEQ
+			 , BUSI_NAME
+			 , BUSI_CHK_USER
+			 , BUSI_CHK_DEPT
+			 , BUSI_CHK_TEL
+			 , BUSI_REG_DATE
+			 , BUSI_MOD_DATE
+			 , to_char(BUSI_START_DATE,'yyyy-mm-dd') AS BUSI_START_DATE
+			 , to_char(BUSI_END_DATE,'yyyy-mm-dd') AS BUSI_END_DATE
+			 , BUSI_AGRE_DATE
+			 , BUSI_OPEN_BOOL
+			 , BUSI_EXPENSE
+			 , BUSI_ORDERS_AMOUNT
+			 , BUSI_ORDER_AMOUNT
+			 , BUSI_TAX 
+		  FROM CM_BUSI
+		 WHERE BUSI_SEQ = #{busi_seq}
+	</select>
+	
+	<insert id="insertBusi" parameterType="busiVO">
+		INSERT 
+		INTO CM_BUSI(
+			  COM_SEQ
+			, BUSI_SEQ
+			, BUSI_NAME
+			, BUSI_CHK_USER
+			, BUSI_CHK_DEPT
+			, BUSI_CHK_TEL
+			, BUSI_START_DATE
+			, BUSI_END_DATE
+			, BUSI_OPEN_BOOL
+			, BUSI_REG_DATE
+			, BUSI_MOD_DATE
+		)VALUES(
+			  #{com_seq, jdbcType=INTEGER}<!-- 맨위에꺼 뺴고 앞에다가 컴마 -->
+			, BUSI_SEQ.NEXTVAL
+			, #{busi_name, jdbcType=VARCHAR}
+			, #{busi_chk_user, jdbcType=VARCHAR}
+			, #{busi_chk_dept, jdbcType=VARCHAR}
+			, #{busi_chk_tel, jdbcType=VARCHAR}
+			, #{busi_start_date, jdbcType=VARCHAR}
+			, #{busi_end_date, jdbcType=VARCHAR}
+			, 'N'
+			, sysdate<!-- 현재 날짜 -->
+			, sysdate<!-- 현재 날짜 -->
+		)
+	</insert>
+	
+	<select id="searchBusiName" parameterType="String" resultMap="busiResultMap">
+		select busi_name, busi_seq from cm_busi where busi_name like '%' || #{searchStr, jdbcType=VARCHAR} || '%' and rownum <![CDATA[<=]]>5
+	</select>
+	
+	<select id="selectBusi" parameterType="String" resultMap="busiResultMap">
+		select com_name, busi_name, busi_chk_user, busi_chk_tel, busi_start_date, busi_end_date, busi_reg_date from com_busi_view where busi_name like '%' || #{searchStr, jdbcType=VARCHAR} || '%'
+	</select>
+	
+	
+	<update id="updateBusi" parameterType="busiVO">
+		UPDATE CM_BUSI
+		   SET BUSI_NAME       = #{busi_name}
+			 , BUSI_CHK_USER   = #{busi_chk_user}
+			 , BUSI_CHK_DEPT   = #{busi_chk_dept}
+			 , BUSI_CHK_TEL    = #{busi_chk_tel}
+			 , BUSI_START_DATE = #{busi_start_date}
+			 , BUSI_END_DATE   = #{busi_end_date}
+			 , BUSI_MOD_DATE   = sysdate
+		WHERE BUSI_SEQ = #{busi_seq} 
+	</update>
+	
+	<delete id="deleteBusi" parameterType="busiVO">
+		DELETE 
+		  FROM CM_BUSI
+		 WHERE BUSI_SEQ = #{busi_seq} 
+	</delete>
+</mapper>
+
+
+  

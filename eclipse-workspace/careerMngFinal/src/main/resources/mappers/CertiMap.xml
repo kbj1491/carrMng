@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.career.mapper.CertiMapper">
+	<resultMap type="certiVO" id="certiResultMap">
+		<id property="seq" column="certi_seq"/>
+		<result property="id" column="certi_id"/>
+		<result property="pw" column="certi_pw"/>
+		<result property="div" column="certi_div"/>
+		<result property="regDate" column="certi_REG_DATE"/>
+		<result property="modDate" column="certi_mod_date"/>
+		<result property="delBool" column="certi_del_bool"/>
+	</resultMap>
+	
+	<select id="certilogin" parameterType="certiVO" resultMap="certiResultMap">
+	select * from CM_certi where certi_id=#{id, jdbcType=VARCHAR} and certi_pw=#{pw, jdbcType=VARCHAR} and certi_del_bool='n'
+	</select>
+	
+	<select id="selectCertiOne" resultMap="certiResultMap">
+	select * from cm_certi where certi_seq=#{seq} 
+	</select>
+	
+	<!-- <insert id="insertCerti" parameterType="userVO" useGeneratedKeys="true" keyProperty="certi_seq">
+	INSERT INTO cm_CERTI(
+	CERTI_SEQ,
+	CERTI_ID, 
+	certi_pw, 
+	certi_div, 
+	certi_del_bool
+	)values(CERTI_SEQ.NEXTVAL, #{id, jdbcType=VARCHAR}, #{pw, jdbcType=VARCHAR}, #{div, jdbcType=VARCHAR},'n')
+	<selectKey keyProperty="idx" resultType="Integer" order="AFTER">
+	 SELECT idx_test_seq.currval FROM dual 
+	 </selectKey>
+	</insert> -->
+	
+	<insert id="insertCerti" parameterType="userVO" useGeneratedKeys="true" keyProperty="certi_seq">
+	INSERT INTO cm_CERTI(
+	CERTI_SEQ,
+	CERTI_ID, 
+	certi_pw, 
+	certi_div, 
+	certi_del_bool
+	)values(CERTI_SEQ.NEXTVAL, #{id, jdbcType=VARCHAR}, #{pw, jdbcType=VARCHAR}, #{div, jdbcType=VARCHAR},'n')
+	</insert>
+	
+</mapper>

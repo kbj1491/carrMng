@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kosmo.career.mapper.ComMapper">
+	<resultMap type="comVO" id="comResultMap">
+		<id property="seq" column="com_seq"/>
+		<result property="name" column="com_name"/>
+		<result property="comNum" column="com_num"/>
+		<result property="tel" column="com_tel"/>
+		<result property="addr" column="com_addr"/>
+		<result property="leader" column="com_leader"/>
+		<result property="pax" column="com_pax"/>
+		<result property="type" column="com_type"/>
+		<result property="certiBool" column="com_cert_bool"/>
+		<result property="delBool" column="com_del_bool"/>
+	</resultMap>
+	
+	<select id="selectCom" parameterType="comVO" resultMap="comResultMap">
+		select * from cm_com where com_seq=#{seq}
+	</select>
+	
+	<insert id="insertCom" parameterType="comVO">
+		insert into cm_com(
+		com_SEQ,
+		COM_NAME,
+		COM_NUM,
+		COM_TEL,
+		COM_ADDR,
+		COM_LEADER,
+		COM_PAX,
+		COM_TYPE,
+		COM_CERT_BOOL
+		)values(
+		certi_seq.currval,
+		#{name, jdbcType=VARCHAR},
+		#{comNum, jdbcType=VARCHAR},
+		#{tel, jdbcType=VARCHAR},
+		#{addr, jdbcType=VARCHAR},
+		#{leader, jdbcType=VARCHAR},
+		#{pax, jdbcType=VARCHAR},
+		'IT',
+		'n'
+		)
+	</insert>
+	
+</mapper>
