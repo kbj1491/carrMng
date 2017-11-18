@@ -1,5 +1,9 @@
 package com.kosmo.career.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.junit.runner.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +20,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosmo.career.service.ServedService;
+import com.kosmo.career.util.ExcelTemplateUtil;
+import com.kosmo.career.util.ExcelUtil;
+import com.kosmo.career.util.ExcelVO;
 import com.kosmo.career.vo.ComVO;
 import com.kosmo.career.vo.MultiServedVO;
 import com.kosmo.career.vo.ServedModVO;
@@ -72,14 +83,14 @@ public class ServedController {
 		HttpSession session = request.getSession();
 		ComVO cvo=(ComVO)session.getAttribute("ComImpo");
 		System.out.println(sList.getSlist().size());
+		System.out.println(sList.getSlist().get(0).getUser_seq());
 		int res=0;
 		for(ServedVO svo : sList.getSlist()) {
-//			svo.setCom_seq(cvo.getSeq());
-			svo.setCom_seq(2);
+			svo.setCom_seq(cvo.getSeq());
 			res+=servedService.insertUserList(svo);
 		}
 		logger.info("회사 : 재직인원 추가"+res+"명");
-		return "redirect:/served/servedUserList.do";
+		return "redirect:/served/comUserReqList.do";
 	}
 	
 	//회사측 사원 요청 관리
@@ -88,25 +99,30 @@ public class ServedController {
 			HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		ComVO cvo=(ComVO)session.getAttribute("ComImpo");
-//		List<ServedVO> sList = servedService.selectUserReqList(cvo.getSeq());
-		List<ServedVO> sList = servedService.selectUserReqList(2);
-		
-		return new ModelAndView("comMain_userMng/comUserReq","servedList",sList);
+		Map<String, Object> map = servedService.selectUserReqList(cvo.getSeq());
+		return new ModelAndView("comMain_userMng/comUserReq","servedList",map);
 	}
 	//사원등록 페이지이동
-			@RequestMapping(value="/EmployeeRegistration.do")
-			public String EmployeeRegistration(HttpServletRequest request, 
-					HttpServletResponse response) {
-				return "com/userMng/comRegPopup";
-			}
-			
-			@RequestMapping(value="/chkUser.do")
-			public @ResponseBody Boolean certiUser(@RequestParam("name") String name, @RequestParam("seq") int seq){
-				logger.info("certiUser"+name);
-				return servedService.certiUser(name,seq);
-			}
-			
+	@RequestMapping(value="/EmployeeRegistration.do")
+	public String EmployeeRegistration(HttpServletRequest request, 
+			HttpServletResponse response) {
+		return "com/userMng/comRegPopup";
+	}
 	
+	@RequestMapping(value="/chkUser.do")
+	public @ResponseBody Boolean certiUser(@RequestParam("name") String name, @RequestParam("seq") int seq){
+		logger.info("certiUser"+name);
+		return servedService.certiUser(name,seq);
+	}
+	
+	@RequestMapping(value="/agreServedCom.do")
+	public String agreServedCom(@RequestParam("seq") List<Integer> sevedList){
+		int i =servedService.agreServedCom(sevedList);
+		if(i<1) System.out.println("업데이트 실패");
+		logger.info("회사 승인 "+i+"개" );
+		return "redirect:/served/servedUserList.do";
+	}
+
 	
 	/*
 	 * 유저 쪽 
@@ -122,7 +138,7 @@ public class ServedController {
 		UserVO uvo = (UserVO)session.getAttribute("UserImpo");
 		if(uvo==null) return new ModelAndView("main");
 		//List<ServedVO> list = servedService.selectComList(uvo.getSeq());
-	List<ServedVO> list = servedService.selectComList(1);
+		List<ServedVO> list = servedService.selectComList(uvo.getSeq());
 		
 		return new ModelAndView("userMain_comMng/userComList", "servedList", list);
 	}
@@ -153,7 +169,7 @@ public class ServedController {
 		svo.setUser_seq(uvo.getSeq());
 	//	svo.setUser_seq(1);
 		int res=servedService.insertCom(svo);
-		return new ModelAndView("redirect:/served/servedComList.do");
+		return new ModelAndView("redirect:/served/comReqMng.do");
 	}
 	
 	
@@ -167,30 +183,16 @@ public class ServedController {
 		return new ModelAndView("userMain_comMng/userComReq","servedList", map);
 	}
 	
-	//개인이 인증안한  요청 조회(경력인증 ny)
-	/*@RequestMapping(value="/comReqMng.do")
-	public ModelAndView comReqMng(HttpServletRequest request, 
-			HttpServletResponse response) {
-		HttpSession session=request.getSession();
-		UserVO uvo = (UserVO)session.getAttribute("UserImpo");
-		List<ServedVO> sList = servedService.selectComReqList(uvo.getSeq());
-//		List<ServedVO> sList = (List<ServedVO>)servedService.selectComReqList(1);
-		
-		return new ModelAndView("userMain_comMng/CompanyRequest","servedList",sList);
-	}*/
-	
-	/*//회사가 개인인 요청한 인증을 안하거나 거절했을시 요청 조회(경력인증 yn)
-	@RequestMapping(value="/comReqMng.do")
-	public ModelAndView userReqMng(HttpServletRequest request, 
-			HttpServletResponse response) {
-		HttpSession session=request.getSession();
-		UserVO uvo = (UserVO)session.getAttribute("UserImpo");
-		List<ServedVO> sList = servedService.selectUserReqList(uvo.getSeq());
-//		List<ServedVO> sList = (List<ServedVO>)servedService.selectComReqList(1);
-		
-		return new ModelAndView("userMain_comMng/CompanyRequest","serveduserList",sList);
-	}*/
-	
+	@RequestMapping(value="/searchComPopup/{user_seq}/.do")
+	public ModelAndView searchComPopup(@PathVariable int user_seq, @RequestParam("comName") String comName){
+		List<ServedVO> sList = new ArrayList<ServedVO>();
+		if(comName.equals("")||comName==null){
+			sList = servedService.selectComName(comName,user_seq);
+		}else{
+			sList = servedService.selectNotComList(user_seq);
+		}
+		return new ModelAndView("user/comMng/userComSearchPopup","servedList", sList);
+	}
 	
 	//재직회사 디테일
 	@RequestMapping(value="/comDetail.do")
@@ -230,4 +232,90 @@ public class ServedController {
 		return new ModelAndView("userMain_comReqMng/comReqDetail","servedVO", svo);
 	}
 	
+	@RequestMapping(value="/agreServedUser.do")
+	public String agreServedUser(@RequestParam("seq") List<Integer> sevedList){
+		int i =servedService.agreServedUser(sevedList);
+		if(i<1) System.out.println("업데이트 실패");
+		logger.info("회사 승인 "+i+"개" );
+		return "redirect:/served/comReqMng.do";
+	}
+	
+	@RequestMapping(value="/excel_import.do",method=RequestMethod.POST)
+	public @ResponseBody Map<String, List<ServedVO>> excel_import(@RequestParam("file") MultipartFile mFile){
+		logger.info("excel_import call");
+		
+		String filePath = "C:\\Users\\kim bo sung\\eclipse-workspace\\careerMngFinal\\src\\main\\webapp\\xls_templete";
+		if(mFile==null || mFile.isEmpty()){
+			throw new RuntimeException("엑셀파일을 선택 해 주세요");
+		}
+		File destFile = new File(filePath+"\\"+mFile.getOriginalFilename());
+		try{
+			mFile.transferTo(destFile);
+		}catch(IOException e){
+			throw new RuntimeException(e.getMessage(),e);
+		}
+		ExcelVO excelVO = new ExcelVO();
+		excelVO.setFilePath(destFile.getAbsolutePath());
+		excelVO.setOutputColumns("B", "C", "D", "E", "F", "G", "H");
+		excelVO.setStartRow(7);
+		System.out.println(destFile.getAbsolutePath());
+		ExcelUtil util = new ExcelUtil();
+		List<Map<String, String>> list =util.getListByOneSheet(excelVO);
+
+		List<ServedVO> sList = new ArrayList<ServedVO>();
+		List<ServedVO> xList = new ArrayList<ServedVO>();
+		for(Map<String, String> map : list){
+			int seq = Integer.parseInt(map.get("B"));
+			String name =map.get("C");
+			String endDate =map.get("H");
+			Boolean res = false;
+			System.out.println("name :" + name + "//");
+			System.out.println("here :: "+ seq + " : " + name + "/" + endDate);
+			if(name==""||name==null){
+				res = false;
+			}else{
+				res =  servedService.certiUser(name, seq);
+			}
+			ServedVO svo = new ServedVO();
+			if(res){
+				svo.setUser_seq(seq);
+				svo.setUserName(name);
+				svo.setDept(map.get("D"));
+				svo.setTask(map.get("E"));
+				svo.setSpot(map.get("F"));
+				svo.setTask_start_date(map.get("G"));
+				svo.setTask_end_date(map.get("H"));
+				sList.add(svo);
+			}else{
+				svo.setUser_seq(seq);
+				svo.setUserName(name);
+				xList.add(svo);
+			}
+			System.out.println("XX" +xList.size()+"  /   OO" +sList.size());
+		}
+		destFile.delete();
+		
+		Map<String, List<ServedVO>> resXLS = new HashMap<String, List<ServedVO>>();
+		resXLS.put("sList", sList);
+		resXLS.put("xList", xList);
+		return resXLS;
+	}
+	
+	@RequestMapping("/makeing_user_xls.do")
+	public void makeing_user_xls(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+		logger.info("boardListExcel call");
+		
+		ComVO cvo = (ComVO)session.getAttribute("ComImpo");
+		int cnt = 0;
+		
+		List<ServedVO> list = servedService.selectUserList(cvo.getSeq());
+		System.out.println("list.size : " + list.size());
+		cnt = list.size();
+		Map<String , Object> hashMap = new HashMap<String , Object>();
+		hashMap.put("comImpo", cvo);
+		hashMap.put("total_count", cnt);
+		hashMap.put("sList", list);
+		ExcelTemplateUtil excel = new ExcelTemplateUtil();
+		excel.makeExcelByTemplate(request, response, hashMap, excel.get_Filename("my_excel_file"), "inputUserTemplete.xlsx");
+	}
 }

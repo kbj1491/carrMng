@@ -43,12 +43,8 @@ public class CarrServiceImpl implements CarrService{
 	}
 
 	@Override
-	public List<CarrVO> userCarrPreview(List<Integer> carrSeqList) {
-		List<CarrVO> carrList=new ArrayList<CarrVO>();
-		for(int carrSeq : carrSeqList) {
-			carrList.add(carrMapper.selectCarr(carrSeq));
-		}
-		return carrList;
+	public List<CarrVO> userCarrPreview(int user_seq) {
+		return carrMapper.selectUserCarr(user_seq);
 	}
 
 	@Override
@@ -93,8 +89,8 @@ public class CarrServiceImpl implements CarrService{
 	}
 
 	@Override
-	public List<BusiVO> searchBusiName(String searchStr) {
-		return busiMapper.selectBusi(searchStr);
+	public List<CarrVO> searchBusiName(String searchStr) {
+		return carrMapper.comAutoComplete(searchStr);
 	}
 
 	@Override
@@ -105,6 +101,33 @@ public class CarrServiceImpl implements CarrService{
 	@Override
 	public List<CarrVO> selectNotAgreeComList(int useq) {
 		return carrMapper.selectNotAgreeComList(useq);
+	}
+
+	@Override
+	public List<CarrVO> comSearch(String comName) {
+		return carrMapper.comSearch(comName);
+	}
+
+	@Override
+	public int carrComAgre(List<Integer> cList) {
+		int res = 0;
+		for(int i : cList){
+			res += carrMapper.carrComAgre(i);
+		}
+		return res;
+	}
+	@Override
+	public int carrUserAgre(List<Integer> cList) {
+		int res = 0;
+		for(int i : cList){
+			res += carrMapper.carrUserAgre(i);
+		}
+		return res;
+	}
+
+	@Override
+	public int carrUserAgreOne(int carr_seq) {
+		return carrMapper.carrUserAgreOne(carr_seq);
 	}
 	
 	

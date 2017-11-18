@@ -4,7 +4,7 @@
     
 				<div class="clearfix"></div>
               <div class="row" style="display: flex; justify-content: center;">
-                <div class="col-md-6 col-sm-12 col-xs-12" >
+                <div class="col-md-9 col-sm-12 col-xs-12" >
                     <div class="x_panel">
                       <div class="x_title" style="display: flex; justify-content: center;">
                         <h2>사원 리스트 </h2>
@@ -14,7 +14,7 @@
                       <div class="x_content">
                             <a href="<%=request.getContextPath()%>/served/inputUser.do" class="btn btn-success btn-xs"><i
 						class="fa fa-share"></i>사원 추가하기</a>
-
+						<div class="clearfix"></div>
                         <div class="table-responsive">
                           <table class="table table-striped jambo_table">
                             <thead>
@@ -43,12 +43,13 @@
 				                	<td>${ServedVO.dept}</td>
 				                	<td>${ServedVO.task}</td>
 				                	<td>${ServedVO.spot}</td>
-				                	<td>${servedVO.task_start_date }~${servedVO.task_end_date }</td>
+				                	<td>${ServedVO.task_start_date }~${ServedVO.task_end_date }</td>
 				                </tr>
 				               </c:forEach>
 
 							</tbody>
 						</table>
+							<a href="/served/makeing_user_xls.do" class="btn btn-primary btn-xs" ><i class="fa fa-folder"></i> 엑셀출력하기 </a>
 					</div>	
                   </div>
                 </div>

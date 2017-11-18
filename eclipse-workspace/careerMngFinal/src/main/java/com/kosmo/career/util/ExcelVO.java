@@ -1,4 +1,4 @@
-/*package com.kosmo.career.util;
+package com.kosmo.career.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,13 +18,13 @@ public class ExcelVO {
     private int startRow;				//스타트 행번호
 	
     
-    *//**
+    /**
      * Cell에 포함된 Column Name 리턴
      * 
      * @param cell
      * @param cellIndex
      * @return null : cellIndex / not null : Column Name
-     *//*
+     */
     public static String getColumnName(Cell cell, int cellIndex) {
         int cellNum = 0;
         if(cell != null) {
@@ -35,11 +35,11 @@ public class ExcelVO {
         return CellReference.convertNumToColString(cellNum);
     }
     
-    *//**
+    /**
      * 셀 값 가져오기 
      * @param cell
      * @return
-     *//*
+     */
     public static String getCellValue(Cell cell) {
         String value = "";
         
@@ -68,13 +68,13 @@ public class ExcelVO {
 
     
     
-    *//**
+    /**
 	 * 확장자(XLS/XLSX)에 따른 Workbook 객체 가져오기 
 	 * 
 	 * @param filePath
 	 * @return
 	 * 
-	 *//*
+	 */
 	public static Workbook getWorkbook(String filePath) {
 
 		FileInputStream fis = null;
@@ -146,4 +146,3 @@ public class ExcelVO {
     }
 
 }
-*/

@@ -1,4 +1,4 @@
-/*package com.kosmo.career.util;
+package com.kosmo.career.util;
 
 
 
@@ -37,25 +37,20 @@ public class ExcelTemplateUtil {
 		return pre + get_Filename();
 	}
 
-	*//**
+	/**
 	 *  board_template.xlsx 읽어와 my_excel_file.xlsx 생성 후 저장
 	 *  template 파일 위치 : /webapp/xls_templete/board_template.xlsx
-	 *//*
+	 */
 	public void makeExcelByTemplate(HttpServletRequest request, HttpServletResponse response, Map<String , Object> map, String filename, String templateFile) {
 		String tempPath = request.getSession().getServletContext().getRealPath("/xls_templete") ;
 		System.out.println("tempPath" + tempPath); 	
 		try {
 			InputStream is = new BufferedInputStream(new FileInputStream(tempPath + "\\" + templateFile));
 			XLSTransformer transformer = new XLSTransformer();
-			for(Object vo :(List)map.get("blist")) {
-				BusiVO bvo = (BusiVO)vo;
-				System.out.println(bvo.toString());
-			}
 			Workbook resultWorkbook = transformer.transformXLS(is, map);//여기서 에러
 			response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + ".xlsx\"");
 			OutputStream os = response.getOutputStream(); 	
 			resultWorkbook.write(os);
-
 		//} catch (ParsePropertyException | InvalidFormatException | IOException ex) {
 		} catch (Exception ex) {
 			logger.error("MakeExcel : makeExcelByTemplate");
@@ -65,4 +60,3 @@ public class ExcelTemplateUtil {
 	
 	
 }
-*/

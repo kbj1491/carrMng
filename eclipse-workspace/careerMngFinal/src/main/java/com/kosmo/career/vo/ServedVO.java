@@ -79,12 +79,21 @@ public class ServedVO {
 		return task_start_date;
 	}
 	public void setTask_start_date(String task_start_date) {
+		if(task_start_date!=null&&task_start_date.length()>=10){
+			task_start_date = task_start_date.substring(0, 10);
+		}
 		this.task_start_date = task_start_date;
 	}
 	public String getTask_end_date() {
 		return task_end_date;
 	}
 	public void setTask_end_date(String task_end_date) {
+		if(task_end_date!=null&&task_end_date.length()>=10){
+			task_end_date=task_end_date.substring(0, 10);
+		}
+		if(task_end_date==null){
+			task_end_date="";
+		}
 		this.task_end_date = task_end_date;
 	}
 	public String getState() {
@@ -97,12 +106,18 @@ public class ServedVO {
 		return reg_date;
 	}
 	public void setReg_date(String reg_date) {
+		if(reg_date!=null&&reg_date.length()>=16){
+			reg_date = reg_date.substring(0, 16);
+		}
 		this.reg_date = reg_date;
 	}
 	public String getMod_date() {
 		return mod_date;
 	}
 	public void setMod_date(String mod_date) {
+		if(mod_date!=null&&mod_date.length()>=16){
+			mod_date = mod_date.substring(0, 16);
+		}
 		this.mod_date = mod_date;
 	}
 	public int getUser_seq() {
@@ -147,7 +162,5 @@ public class ServedVO {
 	public void setSlist(List<ServedModVO> slist) {
 		this.slist = slist;
 	}
-	
-	
 	
 }

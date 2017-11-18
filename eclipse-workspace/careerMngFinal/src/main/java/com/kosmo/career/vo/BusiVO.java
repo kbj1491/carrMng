@@ -132,6 +132,12 @@ public class BusiVO {
 	}
 
 	public void setRegDate(String regDate) {
+		if(regDate!=null&&regDate.length()>=16){
+			regDate=regDate.substring(0, 16);
+		}
+		if(regDate==null){
+			regDate="";
+		}
 		this.regDate = regDate;
 	}
 
@@ -140,6 +146,12 @@ public class BusiVO {
 	}
 
 	public void setModDate(String modDate) {
+		if(modDate!=null&&modDate.length()>=16){
+			modDate=modDate.substring(0, 16);
+		}
+		if(modDate==null){
+			modDate="";
+		}
 		this.modDate = modDate;
 	}
 
@@ -148,6 +160,12 @@ public class BusiVO {
 	}
 
 	public void setStartDate(String startDate) {
+		if(startDate!=null&&startDate.length()>=10){
+			startDate=startDate.substring(0, 10);
+		}
+		if(startDate==null){
+			startDate="";
+		}
 		this.startDate = startDate;
 	}
 
@@ -156,6 +174,12 @@ public class BusiVO {
 	}
 
 	public void setEndDate(String endDate) {
+		if(endDate!=null&&endDate.length()>=10){
+			endDate=endDate.substring(0, 10);
+		}
+		if(endDate==null){
+			endDate="";
+		}
 		this.endDate = endDate;
 	}
 
@@ -164,6 +188,12 @@ public class BusiVO {
 	}
 
 	public void setAgreDate(String agreDate) {
+		if(agreDate!=null&&agreDate.length()>=10){
+			agreDate=agreDate.substring(0, 10);
+		}
+		if(agreDate==null){
+			agreDate="";
+		}
 		this.agreDate = agreDate;
 	}
 
@@ -268,6 +298,12 @@ public class BusiVO {
 	}
 
 	public void setBusi_reg_date(String busi_reg_date) {
+		if(busi_reg_date!=null&&busi_reg_date.length()>=10){
+			busi_reg_date=busi_reg_date.substring(0, 10);
+		}
+		if(busi_reg_date==null){
+			busi_reg_date="";
+		}
 		this.busi_reg_date = busi_reg_date;
 	}
 
@@ -276,6 +312,12 @@ public class BusiVO {
 	}
 
 	public void setBusi_mod_date(String busi_mod_date) {
+		if(busi_mod_date!=null&&busi_mod_date.length()>=16){
+			busi_mod_date=busi_mod_date.substring(0, 16);
+		}
+		if(busi_mod_date==null){
+			busi_mod_date="";
+		}
 		this.busi_mod_date = busi_mod_date;
 	}
 
@@ -284,6 +326,12 @@ public class BusiVO {
 	}
 
 	public void setBusi_start_date(String busi_start_date) {
+		if(busi_start_date!=null&&busi_start_date.length()>=10){
+			busi_start_date=busi_start_date.substring(0, 10);
+		}
+		if(busi_start_date==null){
+			busi_start_date="";
+		}
 		this.busi_start_date = busi_start_date;
 	}
 
@@ -292,6 +340,12 @@ public class BusiVO {
 	}
 
 	public void setBusi_end_date(String busi_end_date) {
+		if(busi_end_date!=null&&busi_end_date.length()>=10){
+			busi_end_date=busi_end_date.substring(0, 10);
+		}
+		if(busi_end_date==null){
+			busi_end_date="";
+		}
 		this.busi_end_date = busi_end_date;
 	}
 
@@ -300,6 +354,12 @@ public class BusiVO {
 	}
 
 	public void setBusi_agre_date(String busi_agre_date) {
+		if(busi_agre_date!=null&&busi_agre_date.length()>=16){
+			busi_agre_date=busi_agre_date.substring(0, 16);
+		}
+		if(busi_agre_date==null){
+			busi_agre_date="";
+		}
 		this.busi_agre_date = busi_agre_date;
 	}
 
@@ -358,6 +418,5 @@ public class BusiVO {
 				+ ", orderAmount=" + orderAmount + ", comName=" + comName + ", comNum=" + comNum + ", comAddr="
 				+ comAddr + ", comTel=" + comTel + ", totalUser=" + totalUser + ", carrList=" + carrList + "]";
 	}
-	
 	
 }

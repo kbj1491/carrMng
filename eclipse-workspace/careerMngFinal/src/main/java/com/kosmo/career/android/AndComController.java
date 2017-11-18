@@ -2,6 +2,7 @@ package com.kosmo.career.android;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -35,11 +36,45 @@ public class AndComController {
 	@Autowired
 	BusiService busiService;
 	
+	
+	
+
 	@RequestMapping(value="/carrList.do")
 	public @ResponseBody List<CarrVO> carrList(
 		@RequestBody int cseq){
-	return carrService.comCarrList(cseq);
+		List<CarrVO> cList = carrService.comCarrList(cseq);
+		System.out.println("-------------------"+cList.size());
+		
+		String carrRegDate = ((CarrVO)(cList.get(0))).getCarrRegDate();
+		
+		if(carrRegDate != null || !"".equals(carrRegDate)) {
+			if(carrRegDate.length() >=16)
+				carrRegDate = carrRegDate.substring(0, 16);
+		}  
+		
+		
+		
+//		List<CarrVO> cList =  new ArrayList<CarrVO>();
+//		CarrVO vo  = new CarrVO();
+//		vo.setUser_seq(1);
+//		cList.add(vo);
+//		
+//		CarrVO vo2  = new CarrVO();
+//		vo2.setUser_seq(2);
+//		cList.add(vo2);
+		
+		return cList;
 	}
+	
+	
+//	
+//	@RequestMapping(value="/carrList.do")
+//	public @ResponseBody List<CarrVO> carrList(
+//		@RequestBody int cseq){
+//		List<CarrVO> cList = carrService.comCarrList(cseq);
+//		System.out.println("-------------------"+cList.size());
+//		return cList;
+//	}
 	
 	@RequestMapping(value="/userReqList.do")
 	public @ResponseBody List<CarrVO> userReqList(

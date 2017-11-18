@@ -43,6 +43,16 @@ public interface CarrMapper {
 
 	//
 	List<CarrVO> selectCarrUserList(String carrRegDate);
+
+	List<CarrVO> comSearch(String comName);
+
+	List<CarrVO> comAutoComplete(String searchStr);
+
+	int carrComAgre(int carr_seq);
+
+	int carrUserAgre(int carr_seq);
+
+	int carrUserAgreOne(int carr_seq);
 	
 	
 }

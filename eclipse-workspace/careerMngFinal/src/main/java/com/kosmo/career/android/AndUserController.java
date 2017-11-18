@@ -43,7 +43,7 @@ public class AndUserController {
 	@RequestMapping(value="/reqList.do")
 	public @ResponseBody List<CarrVO> ReqList(
 		@RequestBody int useq){
-	return carrService.selectNotAgreeUserList(useq);
+	return carrService.selectNotAgreeComList(useq);
 	}
 	
 	@RequestMapping(value="/comList.do")
@@ -52,7 +52,15 @@ public class AndUserController {
 	return servedService.selectComList(useq);
 	}
 	
-	
+	@RequestMapping(value="/agreCarr.do")
+	public @ResponseBody CarrVO agreCarr(
+			@RequestBody int carr_seq){
+		int res = carrService.carrUserAgreOne(carr_seq);
+		CarrVO cvo = new CarrVO();
+		System.out.println(carr_seq);
+		cvo.setBusi_seq(res);
+		return cvo;
+	}
 	
 	
 }

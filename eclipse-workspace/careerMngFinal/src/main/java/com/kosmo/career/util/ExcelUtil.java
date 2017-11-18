@@ -1,4 +1,4 @@
-/*package com.kosmo.career.util;
+package com.kosmo.career.util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,7 +46,8 @@ public class ExcelUtil {
 				if(row != null) {
 					numOfCells = row.getPhysicalNumberOfCells();	//가져온 Row의 Cell의 개수
 					map = new HashMap<String, String>();
-					for(int cellIndex = 0; cellIndex < numOfCells; cellIndex++) {
+					System.out.println(numOfCells);
+					for(int cellIndex = 0; cellIndex <= numOfCells; cellIndex++) {
 						cell = row.getCell(cellIndex);
 						
 						if( cell == null ) {
@@ -94,7 +95,7 @@ public class ExcelUtil {
 			if(row != null) {
 				numOfCells = row.getPhysicalNumberOfCells(); 		//가져온 Row의 Cell의 개수
 				map = new HashMap<String, String>();
-				for(int cellIndex = 0; cellIndex < numOfCells; cellIndex++) {
+				for(int cellIndex = 0; cellIndex <= numOfCells; cellIndex++) {
 					cell = row.getCell(cellIndex);
 					cellName = excelVO.getColumnName(cell, cellIndex);
 					if( !excelVO.getOutputColumns().contains(cellName) ) {
@@ -127,4 +128,3 @@ public class ExcelUtil {
 
 
 }
-*/

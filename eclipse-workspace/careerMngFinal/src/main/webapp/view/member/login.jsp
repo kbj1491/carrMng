@@ -8,6 +8,8 @@
 			}else if(div=="com"){
 				document.getElementById("comDiv").className = "active";
 				document.getElementById("userDiv").className = " ";
+				document.getElementById("id").value="kbj";
+				docuemnt.getElementById("pw").value="1111";
 			}
 		}
 	    

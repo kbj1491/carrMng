@@ -27,14 +27,13 @@
                     <div class="x_panel">
                       <div class="x_content">
 						<div class="x_title">
-                        <h2>Business List </h2>
+                        <h2>사업 리스트 </h2>
                         <div class="clearfix"></div>
                       </div>
                         <div class="table-responsive">
                           <table class="table table-striped jambo_table">
                             <thead>
                               <tr class="headings">
-                                <th><input type="checkbox" class="flat" id="check-all"/></th>
                                 <th class="column-title">번호 </th>
                                 <th class="column-title">사업명 </th>
                                 <th class="column-title">사업시작일 </th>
@@ -48,16 +47,13 @@
                             <tbody>
                             <c:forEach var="busiInfo" items="${busiList}" varStatus="status">
                               <tr class="even pointer">
-                                <td class="a-center ">
-                                  <input type="checkbox" class="flat" name="table_records" value="<c:out value="${busiInfo.busi_seq}"/>">
-                                </td>
                                 <td scope="row"><c:out value="${status.count}"/></td>
-                                <td class=" "><a href="${pageContext.request.contextPath }/busi/busiDetail.do?busi_seq=<c:out value="${busiInfo.busi_seq}"/>"><c:out value="${busiInfo.busi_name}"/></a></td>
-                                <td class=" "><c:out value="${busiInfo.busi_start_date}"/></td>
-                                <td class=" "><c:out value="${busiInfo.busi_end_date}"/></td> 
-                                <td class=" "><c:out value="0 명 TODO"/></td>
+                                <td class=" "><a href="${pageContext.request.contextPath }/busi/busiDetail.do?busi_seq=<c:out value="${busiInfo.busi_seq}"/>"><c:out value="${busiInfo.busiName}"/></a></td>
+                                <td class=" "><c:out value="${busiInfo.startDate}"/></td>
+                                <td class=" "><c:out value="${busiInfo.endDate}"/></td> 
+                                <td class=" "><c:out value="${busiInfo.totalUser}"/></td>
                                 <td class=" "><a href="${pageContext.request.contextPath }/busi/busiDetailInfo.do?busi_seq=<c:out value="${busiInfo.busi_seq}"/>">수정</a></td>
-                                <td class=" "><a href="${pageContext.request.contextPath }/busi/busiDelete.do?busi_seq=<c:out value="${busiInfo.busi_seq}"/>">삭제</a></td>
+                                <td class=" "><a href="${pageContext.request.contextPath }/busi/busiDelete.do?busi_seq=<c:out value="${busiInfo.busi_seq}"/>" onclick="return del()">삭제</a></td>
                               </tr>
                             </c:forEach>
                             </tbody>
@@ -69,7 +65,11 @@
               </div>
             </div>
                       
-                      
+      <script type="text/javascript">
+      function del(){
+    	  return confirm("삭제하시겠습니까?");
+      }
+      </script>
          
          
     

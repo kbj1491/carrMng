@@ -53,13 +53,13 @@ public class CertiVO {
 		return regDate;
 	}
 	public void setRegDate(String regDate) {
-		this.regDate = regDate;
+		this.regDate = regDate.substring(0, 16);
 	}
 	public String getModDate() {
 		return modDate;
 	}
 	public void setModDate(String modDate) {
-		this.modDate = modDate;
+		this.modDate = modDate.substring(0, 16);
 	}
 	
 }

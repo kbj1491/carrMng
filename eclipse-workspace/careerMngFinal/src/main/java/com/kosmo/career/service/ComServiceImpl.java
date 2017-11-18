@@ -33,9 +33,9 @@ public class ComServiceImpl implements ComService{
 	@Override
 	public boolean dupIdCheck(String id) {
 		CertiVO vo=certiMapper.selectId(id);
-		boolean flag=true;
+		boolean flag=false;
 		if (vo!=null) {
-			flag=false;
+			flag=true;
 		}
 		return flag;
 	}

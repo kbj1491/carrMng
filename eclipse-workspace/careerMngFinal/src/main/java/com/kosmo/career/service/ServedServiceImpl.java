@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kosmo.career.mapper.ServedMapper;
+import com.kosmo.career.vo.CarrVO;
 import com.kosmo.career.vo.ServedVO;
 import com.kosmo.career.vo.UserComServedVO;
 
@@ -61,8 +62,11 @@ public class ServedServiceImpl implements ServedService{
 	}
 
 	@Override
-	public List<ServedVO> selectUserReqList(int cseq) {
-		return servedMapper.servedUserReqList(cseq);
+	public Map<String, Object> selectUserReqList(int cseq) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("comReq", servedMapper.servedComSelfReqList(cseq));
+		map.put("userReq", servedMapper.servedComUserReqList(cseq));
+		return map;
 	}
 
 	@Override
@@ -92,6 +96,37 @@ public class ServedServiceImpl implements ServedService{
 	public Boolean certiUser(String name, int seq) {
 		String name2=(String)servedMapper.servedCertiUser(seq);
 		return name.equals(name2);
+	}
+
+	@Override
+	public List<ServedVO> selectNotComList(int user_seq) {
+		return servedMapper.servedNotComList(user_seq);
+	}
+
+	@Override
+	public int agreServedCom(List<Integer> sevedList) {
+		int res=0;
+		for(int served_seq : sevedList){
+			res+=servedMapper.agreServedCom(served_seq);
+		}
+		return res;
+	}
+
+	@Override
+	public int agreServedUser(List<Integer> sevedList) {
+		int res=0;
+		for(int served_seq : sevedList){
+			res+=servedMapper.agreServedUser(served_seq);
+		}
+		return res;
+	}
+
+	@Override
+	public List<ServedVO> selectComName(String comName, int user_seq) {
+		ServedVO svo = new ServedVO();
+		svo.setComName(comName);
+		svo.setUser_seq(user_seq);
+		return servedMapper.selectComName(svo);
 	}
 
 	

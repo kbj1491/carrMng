@@ -23,6 +23,22 @@
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
   
+  <!-- 에러 페이지 설정 : 404 Not Found -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/view/error/page_404.jsp</location>
+	</error-page>
+	
+	<!-- 모든 예외 발생 시 보여질 에러 페이지 설정 -->
+	<error-page>
+		<exception-type>500</exception-type>
+		<location>/view/error/page_500.jsp</location>
+	</error-page>
+  
+	<error-page>
+		<exception-type>Throwable</exception-type>
+		<location>/view/error/page_403.jsp</location>
+	</error-page>
   
   
   <!-- encoding -->

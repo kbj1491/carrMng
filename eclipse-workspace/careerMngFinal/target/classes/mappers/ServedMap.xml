@@ -26,7 +26,7 @@
 	</resultMap>
 	
 	<select id="servedUserList" resultMap="servedResultMap">
-		select * from user_served_view where com_seq=#{cseq}
+		select * from user_served_view where com_seq=#{cseq} and served_user_agree_bool='y' and served_com_agree_bool='y'
 	</select>
 	
 	<insert id="servedUserInsert" parameterType="servedVO">
@@ -64,7 +64,7 @@
 	
 	<!-- 재직 회사 조회 맨위에 숫자 빼야됨!! -->
 	<select id="servedCom" resultMap="servedResultMap">
-		select * from com_user_served_view where com_seq=#{cseq, jdbcType=INTEGER} and served_seq=1
+		select * from com_user_served_view where com_seq=#{cseq, jdbcType=INTEGER}
 	</select>
 	
 	<insert id="servedComInsert" parameterType="servedVO">
@@ -95,10 +95,13 @@
 		)
 	</insert>
 	
-	<select id="servedUserReqList" resultMap="servedResultMap">
-		select * from user_served_view where served_com_agree_bool='n' and com_seq=#{cseq} 
+	<select id="servedComSelfReqList" resultMap="servedResultMap">
+		select * from user_served_view where served_user_agree_bool='n' and com_seq=#{cseq} 
 	</select>
 	
+	<select id="servedComUserReqList" resultMap="servedResultMap">
+		select * from user_served_view where served_com_agree_bool='n' and com_seq=#{cseq} 
+	</select>
 	
 	<select id="servedUserReq" resultMap="servedResultMap">
 	 	select * from user_served_view where served_seq=#{seq}
@@ -119,6 +122,24 @@
 		select user_name from cm_user where user_seq=#{seq}
 	</select>
 	
+	<select id="servedNotComList" resultMap="servedResultMap">
+		select com_name, com_seq, com_num, com_tel from cm_com 
+		where com_seq not in(select distinct(com_seq) from cm_served where user_seq=#{user_seq})
+	</select>
+	
+	<update id="agreServedCom" parameterType="Integer">
+		update cm_served set SERVED_COM_AGREE_BOOL='y',SERVED_MOD_DATE=SYSDATE,SERVED_STATE='승인' WHERE SERVED_SEQ=#{SERVED_SEQ}
+	</update>
+	
+	<update id="agreServedUser" parameterType="Integer">
+		update cm_served set SERVED_USER_AGREE_BOOL='y',SERVED_MOD_DATE=SYSDATE,SERVED_STATE='승인' WHERE SERVED_SEQ=#{SERVED_SEQ}
+	</update>
+	
+	
+	<select id="selectComName" parameterType="servedVO" resultMap="servedResultMap">
+		select com_name, com_seq, com_num, com_tel from cm_com 
+		where com_seq not in(select distinct(com_seq) from cm_served where user_seq=#{user_seq}) and com_name like '%'||#{comName}||'%'
+	</select>
 </mapper>
 
 

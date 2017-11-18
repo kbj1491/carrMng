@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<form action="/carr/carrPreview.do" name="carrMng" method="post">
+<form action="/carr/carrPreview.do" name="carrMng" id="form" method="post">
             <div class="">
              <div class="page-title">
               <div class="title_left">
@@ -39,9 +39,9 @@
                           <table class="table table-striped jambo_table">
                             <thead>
                               <tr class="headings">
-                                <th>
-                                  <input type="checkbox" id="check-all" class="flat">
-                                </th>
+                               <!--  <th>
+                                  <input type="checkbox" id="check-all"  class="flat">
+                                </th> -->
                                 <th class="column-title">회사명 </th>
                                 <th class="column-title">사업명 </th>
                                 <th class="column-title">담당업무 </th>
@@ -64,9 +64,9 @@
 										<tr class="even pointer">
 								    </c:when>
 								</c:choose>
-								<td class="a-center ">
+								<%-- <td class="a-center ">
                                   <input type="checkbox" class="flat" name="carr_seq" value="${carrVO.carr_seq}">
-                                </td>
+                                </td> --%>
 				                	<td>${carrVO.comName}</td>
 				                	<td>${carrVO.busiName}</td>
 				                	<td>${carrVO.task}</td>
@@ -79,10 +79,17 @@
 				               </c:forEach>
                             </tbody>
                           </table>
-                          <input type="submit" class="btn btn-primary" value="경력 출력 미리보기">
+                          <input type="button" class="btn btn-primary" onclick="printpreview();" value="경력 출력 미리보기">
                         </div>
 					</div>	
                   </div>
                 </div>
               </div>
               </form>
+<script type="text/javascript">
+
+function printpreview(){
+	var url = '<%=request.getContextPath()%>/carr/carrPreview.do';
+	window.open(url,'window','width=800,height=800, scrollbars=yes,left=400,top=200');
+}
+</script>

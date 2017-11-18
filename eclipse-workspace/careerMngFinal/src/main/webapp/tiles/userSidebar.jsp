@@ -7,7 +7,7 @@
           <li><a><i class="fa fa-user"></i> 재직 회사 관리 <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               <li><a href="<%=request.getContextPath()%>/served/servedComList.do">재직 회사 목록</a></li>
-              <li><a href="<%=request.getContextPath()%>/served/inputCom.do">회사 등록하기</a></li>
+              <li><a href="<%=request.getContextPath()%>/served/comDirectUserReg.do">회사 등록하기</a></li>
               <li><a href="<%=request.getContextPath()%>/served/comReqMng.do">회사 요청사항</a></li>
             </ul>
           </li>

@@ -1,5 +1,7 @@
 package com.kosmo.career.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class UserVO extends CertiVO{
 	
 	private String name;//사용자명
@@ -13,6 +15,18 @@ public class UserVO extends CertiVO{
 	private String smsBool;//sms수신여부
 	private String delBool;
 	
+	private MultipartFile uploadFile;
+	
+	
+	
+	public MultipartFile getUploadFile() {
+		return uploadFile;
+	}
+
+	public void setUploadFile(MultipartFile uploadFile) {
+		this.uploadFile = uploadFile;
+	}
+
 	public String getDelBool() {
 		return delBool;
 	}
@@ -48,7 +62,7 @@ public class UserVO extends CertiVO{
 		return birthDate;
 	}
 	public void setBirthDate(String birthDate) {
-		this.birthDate = birthDate;
+		this.birthDate = birthDate.substring(0, 10);
 	}
 	public String getProfile_img_orig() {
 		return profile_img_orig;

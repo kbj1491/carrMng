@@ -33,6 +33,7 @@
                                 <th class="column-title">사업시작일 </th>
                                 <th class="column-title">사업종료일 </th>
                                 <th class="column-title">사업등록일 </th>
+                                <th class="column-title">상태</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -41,6 +42,7 @@
                                 <td class=" ">${carrDetail.carrVO.taskStartDate} </td>
                                 <td class=" ">${carrDetail.carrVO.taskEndDate} </td>
                                 <td class=" ">${carrDetail.carrVO.proofDate} </td>
+                                <td class=" ">${carrDetail.carrVO.state} </td>
                               </tr>
                             </tbody>
                           </table>
@@ -76,6 +78,7 @@
                                 <th class="column-title">직위 </th>
                                 <th class="column-title">시작일 </th>
                                 <th class="column-title">종료일 </th>
+                                <th class="column-title">승인상태 </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -96,6 +99,7 @@
 				                	<td>${cvo.spot}</td>
 				                	<td>${cvo.taskStartDate}</td>
 				                	<td>${cvo.taskEndDate}</td>
+				                	<td>${cvo.state}</td>
 				                </tr>
 				               </c:forEach>
                             </tbody>

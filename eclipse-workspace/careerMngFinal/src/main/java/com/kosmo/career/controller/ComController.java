@@ -59,7 +59,7 @@ public class ComController {
 	//개인측 회사 검색
 	@RequestMapping(value="/searchCom.do")
 	public ResponseEntity<List<ComVO>> servedUpdate(@RequestBody String name){
-			List<ComVO> clist = comService.searchCom("name");
+			List<ComVO> clist = comService.searchCom(name);
 			return new ResponseEntity<List<ComVO>>(clist,HttpStatus.OK);
 	}
 	

@@ -18,7 +18,7 @@ public interface CarrService {
 	public CarrVO userCarrDetail(int carr_seq);
 	
 	//경력 미리보기 리스트 출력
-	public List<CarrVO> userCarrPreview(List<Integer> carr_seq);
+	public List<CarrVO> userCarrPreview(int user_seq);
 
 	//회사측 유저 요청 리스트 출력
 	public List<CarrVO> userCarrReqList(int cseq);
@@ -38,12 +38,20 @@ public interface CarrService {
 	public Map<String, Object> carrComDetail(String carrRegDate);
 
 	//사업명으로 사업 검색
-	public List<BusiVO> searchBusiName(String searchStr);
+	public List<CarrVO> searchBusiName(String searchStr);
 	
 	//안드로이드
 	public List<CarrVO> selectNotAgreeUserList(int useq);
 	
 	public List<CarrVO> selectNotAgreeComList(int useq);
+
+	public List<CarrVO> comSearch(String comName);
+
+	public int carrComAgre(List<Integer> cList);
+
+	public int carrUserAgre(List<Integer> cList);
+
+	public int carrUserAgreOne(int carr_seq);
 	
 	
 }

@@ -17,7 +17,9 @@
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  
+    
+    <!-- bootstrap-datetimepicker -->
+    <link href="../vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
 
@@ -48,17 +50,17 @@
                         </div>
                       </div>
                       <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="task">부서<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="task" name="task" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dept">담당업무<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dept">부서<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="dept" name="dept" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="task">담당업무<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="task" name="task" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="item form-group">
@@ -73,8 +75,13 @@
 								for="task_start_date">입사일 <span class="required">*</span>
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
+							<div class='input-group date' id='myDatepicker2'>
 								<input id="task_start_date" class="form-control col-md-7 col-xs-12"
 									name="task_start_date" required="required" type="text">
+									<span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            </div>
 							</div>
 						</div>
 
@@ -83,8 +90,13 @@
 								for="task_end_date">퇴직일 
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
+								<div class='input-group date' id='myDatepicker1'>
 								<input id="task_end_date" class="form-control col-md-7 col-xs-12"
 									name="task_end_date" required="required" type="text">
+									<span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            </div>	
 							</div>
 						</div>
                       <div class="ln_solid"></div>
@@ -107,6 +119,11 @@
     
     <!-- Bootstrap -->
     <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="../vendors/moment/min/moment.min.js"></script>
+    
+    <!-- bootstrap-datetimepicker -->    
+    <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
     
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.js"></script>
@@ -130,12 +147,12 @@
 					},
 					success:function(data){
 						if(data==false){
-							alert('회원명과 회원번호가 정확하지 않습니다.');								
+							alert('일치하는 회원이 존재하지 않습니다.\n아이디와 회원번호를 확인하세요.');								
 						}else if(data==true){
 							window.close();
 							var servedVO = new Object();
-							servedVO.seq=$('#seq').val();
-							servedVO.name=$('#name').val();
+							servedVO.user_seq=$('#seq').val();
+							servedVO.userName=$('#name').val();
 							servedVO.dept=$('#dept').val();
 							servedVO.task=$('#task').val();
 							servedVO.spot=$('#spot').val();
@@ -150,6 +167,14 @@
 					}
 				})
 			
+			});
+			$(document).ready(function() {
+				$('#myDatepicker2').datetimepicker({
+			        format: 'YYYY/MM/DD'
+			    });
+				$('#myDatepicker1').datetimepicker({
+			        format: 'YYYY/MM/DD'
+			    });
 			});
 	</script>
 

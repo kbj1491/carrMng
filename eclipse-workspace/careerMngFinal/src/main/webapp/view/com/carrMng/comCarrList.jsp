@@ -21,8 +21,8 @@
             </div>
             
             <div class="clearfix"></div>
-              <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="row" style="display: flex; justify-content: center">
+                <div class="col-md-6 col-sm-12 col-xs-12" >
                     <div class="x_panel">
                       <div class="x_title">
                         <h2>Career List </h2>
@@ -42,8 +42,6 @@
                             <thead>
                               <tr class="headings">
                                 <th class="column-title">사업명 </th>
-                                <th class="column-title">확인자 </th>
-                                <th class="column-title">확인자 연락처 </th>
                                 <th class="column-title">등록일 </th>
                                 <th class="column-title">등록 인원 </th>
                                 <th class="column-title no-link last"><span class="nobr">자세히보기</span>
@@ -62,8 +60,6 @@
 								    </c:when>
 								</c:choose>
 				                	<td>${cvo.busiName}</td>
-				                	<td>${cvo.chkUser}</td>
-				                	<td>${cvo.chkTel}</td>
 				                	<td>${cvo.carrRegDate}</td>
 				                	<td>${cvo.totalUser}</td>
 				                	<td><a href="<%=request.getContextPath()%>/carr/comCarrDetail.do?carrRegDate=${cvo.carrRegDate}">Detail</a></td>
@@ -71,9 +67,14 @@
 				               </c:forEach>
                             </tbody>
                           </table>
-                          <input type="submit" class="btn btn-primary" value="경력 추가">
+                          <input type="button" class="btn btn-primary" onclick="carrAdd()" value="경력 추가">
                         </div>
 					</div>	
                   </div>
                 </div>
               </div>
+<script type="text/javascript">
+	function carrAdd(){
+		location.href="<%=request.getContextPath()%>/carr/comCarrReg.do";
+	}
+</script>

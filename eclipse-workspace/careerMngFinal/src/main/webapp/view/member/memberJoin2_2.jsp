@@ -1,12 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 <form name="usermember" action="/com/comInsert.do" method="post">
           <table>
               <caption>단체 회원 가입</caption>
@@ -66,5 +59,3 @@
           <input type="hidden" name="comNum" value="12321-2323232">
           <input type="submit" value="가입신청"><a href="./memberJoin3.jsp">가입신청</a>
       </form><input type="hidden" name="pax" value="02-2323-2323">
-</body>
-</html>

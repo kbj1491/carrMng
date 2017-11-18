@@ -1,3 +1,4 @@
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
@@ -32,10 +33,10 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="../view/images/img.jpg" alt="profile_pic" class="img-circle profile_img">
+                <img src="../uploads/${UserImpo.profile_img_orig }" alt="profile_pic" class="img-circle profile_img">
               </div>
               <div class="profile_info">
-                <h2>${UserImpo.name }</h2>
+                <h2>회원번호 : ${UserImpo.seq }<br>이름 : ${UserImpo.name }</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -79,87 +80,11 @@
 	 
 	<!-- scriptSrc -->
 	<tiles:insertAttribute name="scriptSrc" />
-     
-	
-	  <script>
-      $(document).ready(function(){
-      $(function(){
-      	
-      	var boardVO = {
-      	    searchStr: "제목"
-      	};
-
-      	$( "#searchStr" ).autocomplete({ 
-      		source: function(request, response) {
-                  $.ajax({
-                    url: "search_BusiName.do",
-                    method: "POST",
-                    type: "json",
-          			data: { searchStr: request.term}, 						// --> @RequestParam("searchStr") String searchStr abc
-                   	success: function (data) {
-                         response($.map(data, function (item) {
-                             return { label:item.busiName, value:item.busiName };
-                         }))
-                     },
-                    error: function (e) {
-    	                $("#result-div").text(e.responseText);
-    	                console.log("ERROR : ", e);
-      	            }
-                  });
-              },
-             minLength: 2, 
-      		select: function (event, ui) {
-      	    }
-      	});
-      	
-      });
-      
-      $("#searchBtn").on("click",function(){
-    	  alert("검색 버튼"+$("#searchStr").val());
-    	  $.ajax({
-    		  url:"searchResult_BusiName.do",
-    		  method:"POST",
-    		  type:"json",
-    		  data: {searchStr:$("#searchStr").val()},
-    		  success:function(data){
-    			  
-    			  console.log(data);
-    			  /* var val = "";
-    			  for(var v in data) {
-    			  val += v + " : " + data[v];
-    			  }
-    			  console.log("g"+val); */
-    			  /*
-    			  $.each(data, function( index, value ) {
-                      console.log( index + " : " + value ); //Book.java 의 변수명을 써주면 된다.
-                      for(i in value) {
-                   	    console.log("no is " + [i] + ", value is " + value[i]);
-                   	}
-    			  });
-    			  */
-    			  
-    			  $.each(data,function(index,value){
-   				  var result = "";  
-    				result += "<li>" +  data[index].comSeq + "</li>";
-    				console.log("index" + data[index].comSeq);
-    			  });
-    		  }
-    	  });
-      })
-      });
-      /* 달력선택 */
-       /* $('#businessStartDt').datetimepicker({
-          format: 'YYYY-MM-DD'
-       });
-      $('#businessEndDt').datetimepicker({
-         format: 'YYYY-MM-DD'
-         
-      }); */
-      /* $('.date').datetimepicker({
-         format: 'YYYY-MM-DD'
-      });
-       */
-   </script>
-
+<script type="text/javascript">
+	<c:if test="${UserImpo == '' || UserImpo eq null}">
+		alert('로그인이 필요합니다.');
+		location.href="<%=request.getContextPath()%>/index.jsp";
+	</c:if>
+</script>
   </body>
 </html>

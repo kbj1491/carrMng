@@ -27,12 +27,10 @@ public interface ServedService {
 	public ServedVO selectCom(int cseq);
 	
 	//회사측 유저 요청리스트 조회
-	public List<ServedVO> selectUserReqList(int cseq);
+	public Map<String, Object> selectUserReqList(int cseq);
 	
 	//회사측 츄저 요청 세부정보 조회
 	public ServedVO selectUserReq(int served_seq);
-	
-	
 	
 	//유저 정보 수정
 	public Boolean servedUserUpdate(ServedVO svo);
@@ -48,14 +46,20 @@ public interface ServedService {
 
 	//사원측 요청 회사 디테일 조회
 	public ServedVO selectComReqDetail(int seq);
-    
-	
 	
 	//사원번호로 회사요청상태, 내가 요청한상태 두가지 조회
 	public Map<String, Object> selectReqList(int useq);
 
 	//인증
 	public Boolean certiUser(String name, int seq);
+
+	public List<ServedVO> selectNotComList(int user_seq);
+
+	public int agreServedCom(List<Integer> sevedList);
+
+	public int agreServedUser(List<Integer> sevedList);
+
+	public List<ServedVO> selectComName(String comName, int user_seq);
 	
 	
 }

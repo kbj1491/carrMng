@@ -72,7 +72,6 @@
                                 <th class="column-title">담당자 연락처 </th>
                                 <th class="column-title">사업시작일 </th>
                                 <th class="column-title">사업종료일 </th>
-                                <th class="column-title">사업등록일 </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -83,7 +82,6 @@
                                 <td class=" ">${carrVO.chkTel} </td>
                                 <td class=" ">${carrVO.busiStartDate} </td>
                                 <td class=" ">${carrVO.busiEndDate} </td>
-                                <td class=" ">17/10/02 </td>
                               </tr>
                             </tbody>
                           </table>

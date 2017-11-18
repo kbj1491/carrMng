@@ -15,7 +15,7 @@ public interface CertiMapper {
 	
 	//인증추가
 	int insertCerti(CertiVO vo);
-	
-	//아이디 중복체크
+
 	CertiVO selectId(String id);
+	
 }

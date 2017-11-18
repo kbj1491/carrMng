@@ -18,6 +18,7 @@
 
                   <div class="x_content">
                     <div class="table-responsive">
+                    <form action="/served/agreServedUser.do" method="post" name="form" id="form">
                       <table class="table table-striped jambo_table">
                         <thead>
                           <tr class="headings">
@@ -25,14 +26,14 @@
                               <input type="checkbox" id="check-all" class="flat">
                             </th>
                             <th>회사명</th>
-                          <th>사업자<br>등록번호</th>
+                          <th>사업자등록번호</th>
                           <th>연락처</th>
                           <th>부서</th>
-                          <th>담당<br>업무</th>
+                          <th>담당업무</th>
                           <th>직급</th>        
                           <th>근무기간</th>  
                           <th>요청일</th>
-                          <th>승인<br>상태</th>
+                          <th>승인상태</th>
                           </tr>
                         </thead>
 
@@ -46,7 +47,7 @@
 										<tr class="even pointer">
 								    </c:when>
 								</c:choose>
-                                    <td scope="row"><input type="checkbox" class="flat" name="" value="${ServedVO.seq}"></td>
+                                    <td scope="row"><input type="checkbox" class="flat" name="seq" value="${ServedVO.seq}"></td>
 				                	<td>${ServedVO.comName}</td>
 				                	<td>${ServedVO.comNum}</td>
 				                	<td>${ServedVO.comTel}</td>
@@ -60,8 +61,9 @@
 				               </c:forEach>
                         </tbody>
                       </table>
-                       <a href="#" class="btn btn-success btn-xs"><i class="fa fa-share"></i> 요청승인 </a>
+                       <a href="#" class="btn btn-success btn-xs" onclick="agreUser()"><i class="fa fa-share"></i> 요청승인 </a>
                      <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-check-square-o"></i> 요청거절 </a>
+                   </form>
                     </div>
                   </div>
                 </div>
@@ -76,19 +78,20 @@
 
                   <div class="x_content">
                     <div class="table-responsive">
+                    
                       <table class="table table-striped jambo_table">
                         <thead>
                           <tr class="headings">
                             <th class="column-title">번호 </th>
                             <th class="column-title">회사명 </th>
-                            <th class="column-title">사업자<br>등록번호 </th>
+                            <th class="column-title">사업자등록번호 </th>
                             <th class="column-title">연락처 </th>
                             <th class="column-title">부서 </th>
-                            <th class="column-title">담당<br>업무 </th>
+                            <th class="column-title">담당업무 </th>
                             <th class="column-title">직급 </th>
-                            <th class="column-title">근무<br>기간 </th>
+                            <th class="column-title">근무기간 </th>
                             <th class="column-title">요청일 </th>
-                            <th class="column-title">승인<br>상태 </th>
+                            <th class="column-title">승인상태 </th>
                           </tr>
                         </thead>
 
@@ -121,3 +124,11 @@
                 </div>
               </div>
             </div>
+            
+            <script type="text/javascript">
+	function agreUser(){
+		if(confirm('경력을 승인하시겠습니까?')==true){
+	    	document.getElementById('form').submit();
+	    }
+		}
+	</script>

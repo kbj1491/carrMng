@@ -1,5 +1,7 @@
 package com.kosmo.career.controller;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosmo.career.mapper.CertiMapper;
@@ -66,8 +69,14 @@ public class CertiController {
 	@RequestMapping(value="/login.do")
 	public String login(HttpServletRequest request, HttpServletResponse response, @ModelAttribute CertiVO vo) throws Exception {
 		HttpSession session=request.getSession();
+		response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+	        
+
 		if(vo==null) {
 			System.out.println("null값");
+			out.println("<script>alert('로그인 정보를 확인해주세요.');</script>");
+			out.flush();
 		}else {
 			System.out.println("존재");
 		}
@@ -96,14 +105,19 @@ public class CertiController {
 					session.setAttribute("ComImpo", comService.login(vo));
 					return "comMain";
 				}
+				out.println("<script>alert('회원이 존재하지 않습니다.');</script>");
+				out.flush();
+				return "main";
 			}
 		}
+		out.println("<script>alert('회원이 존재하지 않습니다.');</script>");
+		out.flush();
 		return "main";
 	}
 	
 	@RequestMapping(value="/logout.do")
-	public String logout(HttpServletRequest request, HttpServletResponse response){
-		request.getSession().invalidate();
+	public String logout(HttpSession session){
+		session.invalidate();
 		return "main";
 	}
 	
@@ -120,7 +134,7 @@ public class CertiController {
 	}
 	
 	@RequestMapping(value = "/dupIdCheck.do")
-	public ResponseEntity<Boolean> dupIdCheck(HttpServletRequest request, HttpServletResponse response, @RequestBody String id) {
+	public ResponseEntity<Boolean> dupIdCheck(HttpServletRequest request, HttpServletResponse response, @RequestParam("id") String id) {
 		Boolean flag=comService.dupIdCheck(id);//TODO certiService로부터 아이디 중복여부 체크
 		logger.info("ID중복체크");
 		return new ResponseEntity<Boolean>(flag, HttpStatus.OK);

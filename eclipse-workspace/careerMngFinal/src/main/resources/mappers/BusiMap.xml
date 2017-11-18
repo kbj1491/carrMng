@@ -25,49 +25,85 @@
 		<result property="comNum" column="COM_NUM"/>
 		<result property="comAddr" column="COM_ADDR"/>
 		<result property="comTel" column="COM_TEL"/>
-		
+		<result property="totalUser" column="USERCOUNT"/>
+		<collection property="carrList" resultMap="com.kosmo.career.mapper.CarrMapper.carrResultMap" columnPrefix="C_"/>
 	</resultMap>
 	
-	<select id="selectBusiList" resultType="busiVO" parameterType="busiVO">
-		SELECT COM_SEQ
-			 , BUSI_SEQ
-			 , BUSI_NAME
-			 , BUSI_CHK_USER
-			 , BUSI_CHK_DEPT
-			 , BUSI_CHK_TEL
-			 , to_char(BUSI_REG_DATE,'yyyy-mm-dd') AS BUSI_REG_DATE
-			 , to_char(BUSI_MOD_DATE,'yyyy-mm-dd') AS BUSI_MOD_DATE
-			 , to_char(BUSI_START_DATE,'yyyy-mm-dd') AS BUSI_START_DATE
-			 , to_char(BUSI_END_DATE,'yyyy-mm-dd') AS BUSI_END_DATE
-			 , BUSI_AGRE_DATE
-			 , BUSI_OPEN_BOOL
-			 , BUSI_EXPENSE
-			 , BUSI_ORDERS_AMOUNT
-			 , BUSI_ORDER_AMOUNT
-			 , BUSI_TAX 
-		  FROM CM_BUSI
-		 WHERE COM_SEQ = #{com_seq}
+	<select id="selectBusiList" resultMap="busiResultMap" parameterType="busiVO">
+		SELECT B.COM_SEQ
+			 , B.BUSI_SEQ
+			 , B.BUSI_NAME
+			 , B.BUSI_CHK_USER
+			 , B.BUSI_CHK_DEPT
+			 , B.BUSI_CHK_TEL
+			 , to_char(B.BUSI_REG_DATE,'yyyy-mm-dd') AS BUSI_REG_DATE
+			 , to_char(B.BUSI_MOD_DATE,'yyyy-mm-dd') AS BUSI_MOD_DATE
+			 , to_char(B.BUSI_START_DATE,'yyyy-mm-dd') AS BUSI_START_DATE
+			 , to_char(B.BUSI_END_DATE,'yyyy-mm-dd') AS BUSI_END_DATE
+			 , B.BUSI_AGRE_DATE
+			 , B.BUSI_OPEN_BOOL
+             , NVL(A.USERCOUNT,0) AS USERCOUNT
+             FROM
+(SELECT B.BUSI_SEQ, COUNT(*) AS USERCOUNT FROM CM_BUSI B join CM_CARR C ON B.BUSI_SEQ=C.BUSI_SEQ2
+WHERE B.COM_SEQ = 2 and C.CARR_USER_AGREE_BOOL='y' AND C.CARR_COM_AGREE_BOOL='y' GROUP BY B.BUSI_SEQ) A right outer join CM_BUSI B 
+ON A.BUSI_SEQ=B.BUSI_SEQ WHERE B.COM_SEQ=#{com_seq}
 	</select>
 	
-	<select id="selectBusiDetail" parameterType="busiVO" resultType="busiVO">
-		SELECT COM_SEQ
-			 , BUSI_SEQ
-			 , BUSI_NAME
-			 , BUSI_CHK_USER
-			 , BUSI_CHK_DEPT
-			 , BUSI_CHK_TEL
-			 , BUSI_REG_DATE
-			 , BUSI_MOD_DATE
-			 , to_char(BUSI_START_DATE,'yyyy-mm-dd') AS BUSI_START_DATE
-			 , to_char(BUSI_END_DATE,'yyyy-mm-dd') AS BUSI_END_DATE
-			 , BUSI_AGRE_DATE
-			 , BUSI_OPEN_BOOL
-			 , BUSI_EXPENSE
-			 , BUSI_ORDERS_AMOUNT
-			 , BUSI_ORDER_AMOUNT
-			 , BUSI_TAX 
-		  FROM CM_BUSI
-		 WHERE BUSI_SEQ = #{busi_seq}
+	<select id="selectBusiDetail" parameterType="busiVO" resultMap="busiResultMap">
+		<!-- SELECT B.COM_SEQ
+			 , B.BUSI_SEQ
+			 , B.BUSI_NAME
+			 , B.BUSI_CHK_USER
+			 , B.BUSI_CHK_DEPT
+			 , B.BUSI_CHK_TEL
+			 , B.BUSI_REG_DATE
+			 , B.BUSI_MOD_DATE
+			 , to_char(B.BUSI_START_DATE,'yyyy-mm-dd') AS BUSI_START_DATE
+			 , to_char(B.BUSI_END_DATE,'yyyy-mm-dd') AS BUSI_END_DATE
+			 , B.BUSI_AGRE_DATE
+			 , B.BUSI_OPEN_BOOL
+			 , B.BUSI_EXPENSE
+			 , B.BUSI_ORDERS_AMOUNT
+			 , B.BUSI_ORDER_AMOUNT
+			 , B.BUSI_TAX 
+             , C.USER_NAME AS C_USER_NAME
+             , C.USER_SEQ AS C_USER_SEQ
+             , C.CARR_SEQ AS C_CARR_SEQ
+             , C.CARR_DEPT AS C_CARR_DEPT
+             , C.CARR_TASK AS C_CARR_TASK
+             , C.CARR_SPOT AS C_CARR_SPOT
+             , C.CARR_TASK_START_DATE AS C_CARR_TASK_START_DATE
+             , C.CARR_TASK_END_DATE AS C_CARR_TASK_END_DATE
+             , C.CARR_PROOF_DATE AS C_CARR_PROOF_DATE
+		  FROM CM_BUSI B left outer join USER_CARR_VIEW C ON B.BUSI_SEQ=C.BUSI_SEQ2 
+		 WHERE B.BUSI_SEQ = #{busi_seq} and C.CARR_USER_AGREE_BOOL='y' AND C.CARR_COM_AGREE_BOOL='y' -->
+		 SELECT B.COM_SEQ
+			 , B.BUSI_SEQ
+			 , B.BUSI_NAME
+			 , B.BUSI_CHK_USER
+			 , B.BUSI_CHK_DEPT
+			 , B.BUSI_CHK_TEL
+			 , B.BUSI_REG_DATE
+			 , B.BUSI_MOD_DATE
+			 , to_char(B.BUSI_START_DATE,'yyyy-mm-dd') AS BUSI_START_DATE
+			 , to_char(B.BUSI_END_DATE,'yyyy-mm-dd') AS BUSI_END_DATE
+			 , B.BUSI_AGRE_DATE
+			 , B.BUSI_OPEN_BOOL
+			 , B.BUSI_EXPENSE
+			 , B.BUSI_ORDERS_AMOUNT
+			 , B.BUSI_ORDER_AMOUNT
+			 , B.BUSI_TAX 
+             , C.USER_NAME AS C_USER_NAME
+             , C.USER_SEQ AS C_USER_SEQ
+             , C.CARR_SEQ AS C_CARR_SEQ
+             , C.CARR_DEPT AS C_CARR_DEPT
+             , C.CARR_TASK AS C_CARR_TASK
+             , C.CARR_SPOT AS C_CARR_SPOT
+             , C.CARR_TASK_START_DATE AS C_CARR_TASK_START_DATE
+             , C.CARR_TASK_END_DATE AS C_CARR_TASK_END_DATE
+             , C.CARR_PROOF_DATE AS C_CARR_PROOF_DATE
+		  FROM CM_BUSI B LEFT outer join (select * from USER_CARR_VIEW where CARR_USER_AGREE_BOOL='y' AND CARR_COM_AGREE_BOOL='y') C ON B.BUSI_SEQ=C.BUSI_SEQ2 
+		 WHERE B.BUSI_SEQ = #{busi_seq}
 	</select>
 	
 	<insert id="insertBusi" parameterType="busiVO">

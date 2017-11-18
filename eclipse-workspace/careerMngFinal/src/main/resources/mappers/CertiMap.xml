@@ -43,4 +43,7 @@
 	)values(CERTI_SEQ.NEXTVAL, #{id, jdbcType=VARCHAR}, #{pw, jdbcType=VARCHAR}, #{div, jdbcType=VARCHAR},'n')
 	</insert>
 	
+	<select id="selectId" resultMap="certiResultMap">
+		select * from cm_certi where certi_id = #{id}
+	</select>
 </mapper>

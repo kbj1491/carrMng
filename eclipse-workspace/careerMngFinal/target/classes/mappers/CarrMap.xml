@@ -140,4 +140,33 @@
 	<select id="selectCarrUserList" resultMap="carrResultMap">
 		select * from USER_CARR_VIEW where carr_reg_date between to_date(#{carrRegDate},'YYYY-MM-DD HH24:MI') and to_date(#{carrRegDate}||':59','YYYY-MM-DD HH24:MI:SS')
 	</select>
+	
+	 <select id="comSearch" resultMap="carrResultMap">
+	 select B.*, C.COM_NAME from cm_com C join
+	 (select b.* from cm_busi b join
+        (select distinct(busi_seq) AS busi_seq 
+        from com_busi_view where com_name like '%'||#{comName}||'%' or busi_name like '%'||#{comName}||'%')V
+        on b.busi_seq = v.busi_seq) B on C.COM_SEQ=B.COM_SEQ
+   </select>
+   
+   <select id="comAutoComplete" resultMap="carrResultMap">
+   		select C.* from com_busi_view C join(
+   		select distinct(busi_seq) from com_busi_view 
+   		where busi_name like '%' || #{searchStr, jdbcType=VARCHAR} || '%'
+   		or com_name like '%' || #{searchStr, jdbcType=VARCHAR} || '%'
+   		)B on C.busi_seq=B.BUSI_SEQ where rownum <![CDATA[<=]]> 5
+   </select>
+   
+   <update id="carrComAgre">
+		update cm_carr set CARR_COM_AGREE_BOOL='y',CARR_MOD_DATE=SYSDATE, CARR_STATE='승인' WHERE CARR_SEQ=#{CARR_SEQ}
+   </update>
+   
+   <update id="carrUserAgre">
+		update cm_carr set CARR_USER_AGREE_BOOL='y',CARR_MOD_DATE=SYSDATE, CARR_STATE='승인' WHERE CARR_SEQ=#{CARR_SEQ}
+   </update>
+   
+   <update id="carrUserAgreOne">
+   		update cm_carr set CARR_USER_AGREE_BOOL='y',CARR_MOD_DATE=SYSDATE, CARR_STATE='승인' WHERE CARR_SEQ=#{CARR_SEQ}
+   </update>
+   
 </mapper>

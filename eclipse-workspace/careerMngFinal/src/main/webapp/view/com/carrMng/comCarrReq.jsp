@@ -35,6 +35,7 @@
 
                       <div class="x_content">
                         <div class="table-responsive">
+                        <form action="/carr/carrComAgre.do" method="post" name="form" id="form">
                           <table class="table table-striped jambo_table">
                             <thead>
                               <tr class="headings">
@@ -83,10 +84,17 @@
 				               </c:forEach>
                             </tbody>
                           </table>
-                          <input type="submit" class="btn btn-primary" value="경력 승인">
+                          <input type="button" class="btn btn-primary" onclick="agreCom()" value="경력 승인">
+                        </form>
                         </div>
 					</div>	
                   </div>
                 </div>
               </div>
-    
+    <script type="text/javascript">
+    function agreCom(){
+    	if(confirm('경력을 승인하시겠습니까?')==true){
+        	document.getElementById('form').submit();
+        }
+    	}
+    </script>

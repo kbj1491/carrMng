@@ -24,7 +24,7 @@
                       <div class="x_content">
 
                         <div class="table-responsive">
-                          <table class="table table-striped jambo_table bulk_action">
+                          <table class="table table-striped jambo_table">
                             <thead>
                               <tr class="headings">
                                 <th class="column-title">사업명 </th>
@@ -34,20 +34,17 @@
                                 <th class="column-title">담당자 부서 </th>
                                 <th class="column-title">담당자 연락처</th>
                                 <th class="column-title">사업등록일 </th>
-                                <th class="bulk-actions" colspan="7">
-                                  <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                                </th>
                               </tr>
                             </thead>
                             <tbody>
                               <tr class="even pointer">
-                                <td class=" "><c:out value="${busiInfo.busi_name} "/></td>
-                                <td class=" "> <c:out value="${busiInfo.busi_start_date} "/></td>
-                                <td class=" "><c:out value="${busiInfo.busi_end_date} "/></td>
-                                <td class=" "> <c:out value="${busiInfo.busi_chk_user} "/></td>
-                                <td class=" "> <c:out value="${busiInfo.busi_chk_dept} "/></td>
-                                <td class=" "> <c:out value="${busiInfo.busi_chk_tel} "/></td>
-                                <td class=" "><c:out value="${busiInfo.busi_reg_date} "/></td>
+                                <td class=" "><c:out value="${busiInfo.busiName} "/></td>
+                                <td class=" "> <c:out value="${busiInfo.startDate} "/></td>
+                                <td class=" "><c:out value="${busiInfo.endDate} "/></td>
+                                <td class=" "> <c:out value="${busiInfo.chkUser} "/></td>
+                                <td class=" "> <c:out value="${busiInfo.chkDept} "/></td>
+                                <td class=" "> <c:out value="${busiInfo.chkTel} "/></td>
+                                <td class=" "><c:out value="${busiInfo.regDate} "/></td>
                               </tr>
                             </tbody>
                           </table>
@@ -78,8 +75,8 @@
                                 <th class="column-title">번호 </th>
                                 <th class="column-title">사원명 </th>
                                 <th class="column-title">사원번호 </th>
-                                <th class="column-title">담당업무 </th>
                                 <th class="column-title">부서 </th>
+                                <th class="column-title">담당업무 </th>
                                 <th class="column-title">직위 </th>
                                 <th class="column-title">시작일 </th>
                                 <th class="column-title">종료일 </th>
@@ -87,17 +84,17 @@
                               </tr>
                             </thead>
                             <tbody>
-                            <c:forEach var="busiInfo" items="${busiDetail}" varStatus="status">
+                            <c:forEach var="cList" items="${busiInfo.carrList}" varStatus="status">
                               <tr class="even pointer">
                                 <td class=" "><c:out value="${status.count}"/></td>
-                                <td class=" "><c:out value="${busiInfo.busi_name}"/></td>
-                                <td class=" "><c:out value="${busiInfo.com_num}"/></td>
-                                <td class=" "><c:out value="${busiInfo.count}"/></td>
-                                <td class=" "><c:out value="${busiInfo.count}"/></td>
-                                <td class=" "><c:out value="${busiInfo.count}"/></td>
-                                <td class=" "><c:out value="${busiInfo.busi_start_date}"/></td>
-                                <td class=" "><c:out value="${busiInfo.busi_end_date}"/></td>
-                                <td class=" "><c:out value="TODO vo부터"/></td>
+                                <td class=" "><c:out value="${cList.userName}"/></td>
+                                <td class=" "><c:out value="${cList.user_seq}"/></td>
+                                <td class=" "><c:out value="${cList.dept}"/></td>
+                                <td class=" "><c:out value="${cList.task}"/></td>
+                                <td class=" "><c:out value="${cList.spot}"/></td>
+                                <td class=" "><c:out value="${cList.taskStartDate}"/></td>
+                                <td class=" "><c:out value="${cList.taskEndDate}"/></td>
+                                <td class=" "><c:out value="${cList.proofDate}"/></td>
                               </tr>
 							</c:forEach>
                             </tbody>

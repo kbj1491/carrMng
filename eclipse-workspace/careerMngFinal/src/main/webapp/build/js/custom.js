@@ -243,21 +243,21 @@ $('.bulk_action input').on('ifUnchecked', function () {
     $(this).parent().parent().parent().removeClass('selected');
     countChecked();
 });
-$('.bulk_action input#check-all').on('ifChecked', function () {
+$('input#check-all').on('ifChecked', function () {
     checkState = 'all';
     countChecked();
 });
-$('.bulk_action input#check-all').on('ifUnchecked', function () {
+$('input#check-all').on('ifUnchecked', function () {
     checkState = 'none';
     countChecked();
 });
 
 function countChecked() {
     if (checkState === 'all') {
-        $(".bulk_action input[name='table_records']").iCheck('check');
+        $("input[name='table_records']").iCheck('check');
     }
     if (checkState === 'none') {
-        $(".bulk_action input[name='table_records']").iCheck('uncheck');
+        $("input[name='table_records']").iCheck('uncheck');
     }
 
     var checkCount = $(".bulk_action input[name='table_records']:checked").length;
@@ -5063,7 +5063,6 @@ if (typeof NProgress != 'undefined') {
 		init_CustomNotification();
 		init_autosize();
 		init_autocomplete();
-				
 	});	
 	
 

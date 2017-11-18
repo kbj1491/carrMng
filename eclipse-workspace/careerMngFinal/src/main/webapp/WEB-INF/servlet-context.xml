@@ -34,7 +34,8 @@
 	<mvc:resources mapping="/view/css/**" location="/view/css/" />
 	<mvc:resources mapping="/view/js/**" location="/view/js/" />
 	<mvc:resources mapping="/view/images/**" location="/view/images/" />
-	
+	<mvc:resources mapping="/uploads/**" location="/vendors/" />
+	<mvc:resources mapping="/view/error/**" location="/vendors/error" />
 	<!-- datasource --> 
 	<bean id="dataSourceSpied" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
 	    <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
@@ -124,6 +125,7 @@
          <property name="maxUploadSize" value="2000000" />
          <property name="uploadTempDir" value="/uploads" />
      </bean>
+     
      <bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
         <constructor-arg>
             <value>C:/upload/</value>

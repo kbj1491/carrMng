@@ -20,7 +20,7 @@
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input id="busi_name" class="form-control col-md-7 col-xs-12"
 									data-validate-length-range="6" data-validate-words="2"
-									name="busi_name" required="required" type="text">
+									name="busi_name" required="required" type="text" value="스펙">
 							</div>
 						</div>
 						<div class="item form-group">
@@ -28,9 +28,14 @@
 								for="busi_start_date">사업시작일 <span class="required">*</span>
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
+								<div class='input-group date' id='myDatepicker1'>
 								<input id="busi_start_date" class="form-control col-md-7 col-xs-12"
-									data-validate-length-range="6" data-validate-words="2"
 									name="busi_start_date" required="required" type="text">
+									<span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            </div>
+								
 							</div>
 						</div>
 
@@ -39,9 +44,15 @@
 								for="email">사업종료일 <span class="required">*</span>
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
+								<div class='input-group date' id='myDatepicker2'>
 								<input id="busi_end_date" class="form-control col-md-7 col-xs-12"
 									data-validate-length-range="6" data-validate-words="2"
 									name="busi_end_date" required="required" type="text">
+									<span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                            </div>
+								
 							</div>
 						</div>
 
@@ -52,7 +63,7 @@
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="busi_chk_user" name="busi_chk_user"
 									required="required" data-validate-minmax="10,100"
-									class="form-control col-md-7 col-xs-12">
+									class="form-control col-md-7 col-xs-12" value="스펙업담당자">
 							</div>
 						</div>
 						<div class="item form-group">
@@ -61,7 +72,7 @@
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="busi_chk_dept" name="busi_chk_dept"
-									required="required" class="form-control col-md-7 col-xs-12">
+									required="required" class="form-control col-md-7 col-xs-12" value="스펙">
 							</div>
 						</div>
 						<div class="item form-group">
@@ -71,7 +82,7 @@
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input id="busi_chk_tel" type="text" name="busi_chk_tel"
 									data-validate-length-range="5,20"
-									class="optional form-control col-md-7 col-xs-12">
+									class="optional form-control col-md-7 col-xs-12" value="010-1234-1234">
 							</div>
 						</div>
 
@@ -89,3 +100,14 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+window.onload=function() {
+	$('#myDatepicker2').datetimepicker({
+        format: 'YYYY/MM/DD'
+    });
+	$('#myDatepicker1').datetimepicker({
+        format: 'YYYY/MM/DD'
+    });
+};
+</script>

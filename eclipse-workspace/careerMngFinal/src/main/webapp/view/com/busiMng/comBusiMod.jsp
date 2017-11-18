@@ -26,7 +26,7 @@
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input id="busi_name" class="form-control col-md-7 col-xs-12"
-									data-validate-length-range="6" data-validate-words="2" value="<c:out value="${busiVO.busi_name }"/>"
+									data-validate-length-range="6" data-validate-words="2" value="<c:out value="${busiVO.busiName }"/>"
 									name="busi_name" required="required" type="text">
 							</div>
 						</div>
@@ -36,7 +36,7 @@
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input id="busi_start_date" class="form-control col-md-7 col-xs-12"
-									data-validate-length-range="6" data-validate-words="2" value="<c:out value="${busiVO.busi_start_date }"/>"
+									data-validate-length-range="6" data-validate-words="2" value="<c:out value="${busiVO.startDate }"/>"
 									name="busi_start_date" required="required" type="text">
 							</div>
 						</div>
@@ -47,7 +47,7 @@
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input id="busi_end_date" class="form-control col-md-7 col-xs-12"
-									data-validate-length-range="6" data-validate-words="2" value="<c:out value="${busiVO.busi_end_date }"/>"
+									data-validate-length-range="6" data-validate-words="2" value="<c:out value="${busiVO.endDate }"/>"
 									name="busi_end_date" required="required" type="text">
 							</div>
 						</div>
@@ -58,7 +58,7 @@
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="busi_chk_user" name="busi_chk_user"
-									required="required" data-validate-minmax="10,100" value="<c:out value="${busiVO.busi_chk_user }"/>"
+									required="required" data-validate-minmax="10,100" value="<c:out value="${busiVO.chkUser }"/>"
 									class="form-control col-md-7 col-xs-12">
 							</div>
 						</div>
@@ -67,7 +67,7 @@
 								for="busi_chk_dept">담당자 부서 <span class="required">*</span>
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<input type="text" id="busi_chk_dept" name="busi_chk_dept" value="<c:out value="${busiVO.busi_chk_dept }"/>"
+								<input type="text" id="busi_chk_dept" name="busi_chk_dept" value="<c:out value="${busiVO.chkDept }"/>"
 									required="required" class="form-control col-md-7 col-xs-12">
 							</div>
 						</div>
@@ -77,7 +77,7 @@
 							</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input id="busi_chk_tel" type="text" name="busi_chk_tel"
-									data-validate-length-range="5,20" value="<c:out value="${busiVO.busi_chk_tel }"/>"
+									data-validate-length-range="5,20" value="<c:out value="${busiVO.chkTel }"/>"
 									class="optional form-control col-md-7 col-xs-12">
 							</div>
 						</div>

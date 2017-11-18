@@ -7,16 +7,6 @@
                 <h3>경력 요청사항</h3>
               </div>
 
-              <div class="title_right">
-                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                  <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search for...">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" type="button">Go!</button>
-                    </span>
-                  </div>
-                </div>
-              </div>
              </div>
             </div>
             
@@ -35,6 +25,7 @@
 
                       <div class="x_content">
                         <div class="table-responsive">
+                        <form action="/carr/carrUserAgre.do" method="post" name="form" id="form">
                           <table class="table table-striped jambo_table">
                             <thead>
                               <tr class="headings">
@@ -51,9 +42,6 @@
                                 <th class="column-title">상태 </th>
                                 <th class="column-title no-link last"><span class="nobr">자세히보기</span>
                                 </th>
-                                <th class="bulk-actions" colspan="7">
-                                  <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                                </th>
                               </tr>
                             </thead>
 
@@ -68,7 +56,7 @@
 								    </c:when>
 								</c:choose>
 								<td class="a-center ">
-                                  <input type="checkbox" class="flat" name="carr_seq" value="${carrVO.carr_seq}">
+                                  <input type="checkbox" class="flat" name="carr_seq" value="${cvo.carr_seq}">
                                 </td>
 					                <td>${cvo.comName}</td>
 					                <td>${cvo.busiName}</td>
@@ -83,7 +71,8 @@
 				               </c:forEach>
                             </tbody>
                           </table>
-                          <input type="submit" class="btn btn-primary" value="경력 승인">
+                          <input type="button" onclick="agreUser()" class="btn btn-primary" value="경력 승인">
+                        </form>
                         </div>
 					</div>	
                   </div>
@@ -117,9 +106,6 @@
                                 <th class="column-title">상태 </th>
                                 <th class="column-title no-link last"><span class="nobr">자세히보기</span>
                                 </th>
-                                <th class="bulk-actions" colspan="7">
-                                  <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                                </th>
                               </tr>
                             </thead>
 
@@ -147,10 +133,15 @@
 				               </c:forEach>
                             </tbody>
                           </table>
-                          <input type="button" class="btn btn-primary" value="경력 요청">
                         </div>
 					</div>	
                   </div>
                 </div>
               </div>
-    
+    <script type="text/javascript">
+    function agreUser(){
+    	if(confirm('경력을 승인하시겠습니까?')==true){
+    	document.getElementById('form').submit();
+    }
+    }
+    </script>

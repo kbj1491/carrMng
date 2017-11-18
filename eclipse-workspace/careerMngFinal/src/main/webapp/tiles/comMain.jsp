@@ -1,3 +1,4 @@
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
@@ -76,5 +77,12 @@
     </div>
 	<!-- scriptSrc -->
 	<tiles:insertAttribute name="scriptSrc" />
+	
+	<script type="text/javascript">
+	<c:if test="${ComImpo == '' || ComImpo eq null}">
+		alert('로그인이 필요합니다.');
+		location.href="<%=request.getContextPath()%>/index.jsp";
+	</c:if>
+</script>
   </body>
 </html>

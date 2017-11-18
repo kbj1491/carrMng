@@ -7,11 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.junit.runner.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -46,6 +44,9 @@ public class CarrController {
 	@Autowired
 	BusiService busiService;
 	
+	@Autowired
+	ServedService servedService;
+	
 	@RequestMapping(value="/comMain.do")
 	public String comMain(HttpServletRequest request, 
 			HttpServletResponse response) {
@@ -57,16 +58,19 @@ public class CarrController {
 			HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		ComVO cvo = (ComVO)session.getAttribute("ComImpo");
-//		List<CarrVO> cList = carrService.comCarrList(cvo.getSeq());
-		List<CarrVO> cList = carrService.comCarrList(2);
+		List<CarrVO> cList = carrService.comCarrList(cvo.getSeq());
 		
 		return new ModelAndView("comMain_carrMng/comCarrList","carrList", cList);
 	}
 	
 	@RequestMapping(value="/comCarrReg.do")
-	public String comCarrInput(HttpServletRequest request, 
-			HttpServletResponse response) {
-		return "comMain_carrMng/comCarrReg";
+	public ModelAndView comCarrInput(HttpServletRequest request, 
+			HttpServletResponse response, HttpSession session) {
+		ComVO cvo=(ComVO)session.getAttribute("ComImpo");
+		BusiVO bvo = new BusiVO();
+		bvo.setCom_seq(cvo.getSeq());
+		List<BusiVO> bList = busiService.selectBusiList(bvo);
+		return new ModelAndView("comMain_carrMng/comCarrReg", "busiList", bList);
 	}
 	
 	@RequestMapping(value="/comCarrInsert.do")
@@ -92,8 +96,7 @@ public class CarrController {
 			HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		ComVO cvo =(ComVO)session.getAttribute("ComImpo");
-//		Map<Object> carrReq = (Map<Object>)carrService.userCarrReqList(cvo.getSeq());
-		List<CarrVO> carrReqList = (List<CarrVO>)carrService.userCarrReqList(2);
+		List<CarrVO> carrReqList = (List<CarrVO>)carrService.userCarrReqList(cvo.getSeq());
 		
 		return new ModelAndView("comMain_carrMng/comCarrReq","carrReqList", carrReqList);
 	}
@@ -110,11 +113,24 @@ public class CarrController {
 	public ModelAndView comCarrDetail(HttpServletRequest request, 
 			HttpServletResponse response, @RequestParam("carrRegDate") String carrRegDate) {
 		Map<String, Object> map = (Map<String, Object>)carrService.carrComDetail(carrRegDate);
-		List<CarrVO> list =(List<CarrVO>)map.get("carrUserList");
+		List<CarrVO> list = (List<CarrVO>)map.get("carrUserList");
 		System.out.println(list.size());
 		return new ModelAndView("comMain_carrMng/comCarrDetail","carrDetail",map);
 	}
 	
+	@RequestMapping(value="/comCarrPopup.do")
+	public ModelAndView comCarrPopup(HttpSession session){
+		ComVO cvo = (ComVO)session.getAttribute("ComImpo");
+		List<ServedVO> sList = servedService.selectUserList(cvo.getSeq());//TODO
+		return new ModelAndView("com/carrMng/comCarrPopup","servedList", sList);
+	}
+	
+	@RequestMapping(value="/carrComAgre.do")
+	public String carrComAgre(@RequestParam("carr_seq") List<Integer> cList){
+		int res=carrService.carrComAgre(cList);
+		logger.info("회사 경력 승인 "+res+"개");
+		return "redirect:/carr/comCarrReq.do";
+	}
 	
 	/*
 	 * 유저 부분
@@ -131,8 +147,7 @@ public class CarrController {
 			HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		UserVO uvo=(UserVO)session.getAttribute("UserImpo");
-//		List<CarrVO> carrList = carrService.userCarrList(uvo.getSeq());
-		List<CarrVO> carrList = carrService.userCarrList(1);
+		List<CarrVO> carrList = carrService.userCarrList(uvo.getSeq());
 		
 		return new ModelAndView("userMain_carrMng/userCarrList","carrList", carrList);
 	}
@@ -149,17 +164,19 @@ public class CarrController {
 			HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		UserVO uvo = (UserVO)session.getAttribute("UserImpo");
-//		Map<String, Object> map = carrService.userCarrReqList(uvo.getSeq());
-		Map<String, Object> map = (Map<String, Object>)carrService.carrReqList(1);
+//		Map<String, Object> map = (Map<String, Object>)carrService.userCarrReqList(uvo.getSeq());
+		
+		Map<String, Object> map = (Map<String, Object>)carrService.carrReqList(uvo.getSeq());
 		
 		return new ModelAndView("userMain_carrMng/userCarrReqList", "carrReq", map);
 	}
 	
 	@RequestMapping(value="/carrPreview.do")
 	public ModelAndView carrPreview(HttpServletRequest request, 
-			HttpServletResponse response, @RequestParam("carr_seq") List<Integer> carr_seq) {
-		List<CarrVO> carrList=(List<CarrVO>)carrService.userCarrPreview(carr_seq);
-		return new ModelAndView("userMain_carrMng/userCarrPreview","carrList",carrList);
+			HttpServletResponse response, HttpSession session) {
+		UserVO uvo = (UserVO)session.getAttribute("UserImpo");
+		List<CarrVO> carrList=(List<CarrVO>)carrService.userCarrPreview(uvo.getSeq());
+		return new ModelAndView("user/carrMng/userCarrPreview","carrList",carrList);
 	}
 	
 	
@@ -183,8 +200,8 @@ public class CarrController {
 			HttpServletResponse response, @ModelAttribute CarrVO carrVO) {
 		HttpSession session=request.getSession();
 		UserVO uvo=(UserVO)session.getAttribute("UserImpo");
-//		carrVO.setUser_seq(uvo.getSeq());
-		carrVO.setUser_seq(1);
+		carrVO.setUser_seq(uvo.getSeq());
+		System.out.println(carrVO.getBusi_seq());
 		int res=carrService.userCarrInsert(carrVO);
 		logger.info("경력 등록 : "+res+"명");
 		return new ModelAndView("redirect:/carr/userCarrReqList.do");
@@ -192,30 +209,24 @@ public class CarrController {
 	
 	//userCarrReg Search Busi
 	@RequestMapping(value="/search_BusiName.do")
-	public @ResponseBody List<BusiVO> autoBusiSearchAjax (
+	public @ResponseBody List<CarrVO> autoBusiSearchAjax (
 			@RequestParam("searchStr") String searchStr		//data: { searchStr: request.term}
 	){
 		System.out.println( "searchStr : " + searchStr);
-		
-		List<BusiVO> list = busiService.searchBusiName(searchStr); 
-		//@ResponseBody 사용으로 별도의 json 변환이 필요없다.
-		
-		for(BusiVO vo : list) {
-			System.out.println(vo.getBusiName());
-		}
-		
+		List<CarrVO> list = carrService.searchBusiName(searchStr); 
 		return list;
 	} 
-	
-	@RequestMapping(value="/searchResult_BusiName.do")
-	public @ResponseBody List<BusiVO> searchResult_BusiName (
-			@RequestParam("searchStr") String searchStr		//data: { searchStr: request.term}
-	)  {
-		System.out.println( "searchStr : " + searchStr);
-		
-		List<BusiVO> bList = carrService.searchBusiName(searchStr); 
-		//@ResponseBody 사용으로 별도의 json 변환이 필요없다.
-		return bList;
-	} 
+	@RequestMapping(value="/comSearch.do")   //해당 회사의 사업 등을 리스트 조회
+	   public  @ResponseBody List<CarrVO> comSearch (
+	         @RequestParam("comName") String comName){
+	      List<CarrVO> list=carrService.comSearch(comName);
+	      return list;
+	   }
 
+	@RequestMapping(value="/carrUserAgre.do")
+	public String carrUserAgre(@RequestParam("carr_seq") List<Integer> cList){
+		int res=carrService.carrUserAgre(cList);
+		logger.info("회사 경력 승인 "+res+"개");
+		return "redirect:/carr/userCarrReqList.do";
+	}
 }

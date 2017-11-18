@@ -25,8 +25,11 @@ public interface ServedMapper {
 	int servedComInsert(ServedVO svo);
 	
 	//유저 요청 리스트 조회
-	List<ServedVO> servedUserReqList(int cseq);
+	List<ServedVO> servedComUserReqList(int cseq);
 	
+	//유저 요청 리스트 조회
+	List<ServedVO> servedComSelfReqList(int cseq);
+		
 	//유저 요청 세부정보 조회
 	ServedVO servedUserReq(int served_seq);
 
@@ -41,4 +44,12 @@ public interface ServedMapper {
 
 	//시퀀스로 사용자 조회
 	String servedCertiUser(int seq);
+
+	List<ServedVO> servedNotComList(int user_seq);
+
+	int agreServedCom(int served_seq);
+
+	int agreServedUser(int served_seq);
+
+	List<ServedVO> selectComName(ServedVO svo);
 }
